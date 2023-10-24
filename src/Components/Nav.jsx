@@ -5,9 +5,11 @@ import LOGO from "../assets/myLogo.jpg";
 import AnchorLink from "react-anchor-link-smooth-scroll";
 
 const Links = [
+  { name: "Home", linkto: "#mastheadSection" },
   { name: "Project", linkto: "#projectSection" },
   { name: "About", linkto: "#aboutSection" },
   { name: "Contact", linkto: "#contactSection" },
+  { name: "Subscribe", linkto: "#footerSection" },
 ];
 
 const Nav = () => {

@@ -5,6 +5,7 @@ const Masthead = () => {
   return (
     <>
       <div
+        id="mastheadSection"
         className={`ml-[75.5px] h-[100vh] bg-slate-500`}
         style={{
           background: `url(${BG_IMG})`,

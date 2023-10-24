@@ -1,19 +1,18 @@
-import Nav from "./Components/Nav";
-import Masthead from "./Sections/Masthead";
-import Project from "./Sections/Project";
-import About from "./Sections/About";
-import Contact from "./Sections/Contact";
-import Footer from "./Sections/Footer";
+import Home from "./Pages/Home";
+import ShowProjects from "./Pages/ShowProjects";
+import NoPage from "./Sections/NoPage";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 const App = () => {
   return (
     <>
-      <Nav />
-      <Masthead />
-      <Project />
-      <About />
-      <Contact />
-      <Footer />
+      <BrowserRouter>
+        <Routes>
+          <Route exact path="/" element={<Home />} />
+          <Route exact path="/my-project-show" element={<ShowProjects />} />
+          <Route exact path="*" element={<NoPage />} />
+        </Routes>
+      </BrowserRouter>
     </>
   );
 };

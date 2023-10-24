@@ -1,5 +1,7 @@
 import Card from "../Components/Card";
 import Title from "../Components/Title";
+import { Link } from "react-router-dom";
+
 import PROJECT_BANNER from "../assets/Projects.jpg";
 import React_Logo from "../assets/projects/reactjs.svg";
 import Css_Logo from "../assets/projects/css.svg";
@@ -60,7 +62,9 @@ const Project = () => {
           {projects.map((value, index) => {
             return (
               <div key={index} className="m-2 p-2">
-                <Card imgSrc={value.imgSrc} text={value.text} />
+                <Link to={"/my-project-show"}>
+                  <Card imgSrc={value.imgSrc} text={value.text} />
+                </Link>
               </div>
             );
           })}

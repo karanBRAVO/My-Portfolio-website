@@ -1,7 +1,7 @@
 const ShowProjects = () => {
   return (
     <>
-      <div className="w-full h-[100vh] bg-sky-800">
+      <div className="bg-sky-200 w-full h-[100vh]">
         <div>
           <img src="" alt="Pic" />
         </div>
