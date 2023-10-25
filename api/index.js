@@ -1,9 +1,13 @@
 import express from "express";
 import bodyParser from "body-parser";
+import dotEnv from "dotenv";
+import dbConnect from "./connection/dbConn.js";
 import testRouter from "./routes/test.route.js";
 
 const APP = express();
-const PORT = 3000;
+dotEnv.config();
+dbConnect();
+const PORT = process.env.PORT || 6000;
 
 APP.use(bodyParser.json());
 APP.use(bodyParser.urlencoded({ extended: true }));
