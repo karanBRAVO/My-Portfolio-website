@@ -58,6 +58,7 @@ const ProjectCard = ({
                   key={index}
                   src={value.src}
                   alt="photo"
+                  title={value.title}
                   className="w-[300px] h-[150px] rounded-sm"
                 />
               ) : (
