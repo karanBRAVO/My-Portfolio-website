@@ -59,10 +59,11 @@ const ProjectCard = ({
                   src={value.src}
                   alt="photo"
                   title={value.title}
-                  className="w-[300px] h-[150px] rounded-sm"
+                  className="w-[300px] h-[150px] rounded-sm mx-1"
                 />
               ) : (
                 <iframe
+                  className="rounded-sm mx-1"
                   key={index}
                   src={value.src}
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"

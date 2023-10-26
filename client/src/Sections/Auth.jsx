@@ -1,15 +1,27 @@
 import Logo from "../assets/myLogo.jpg";
 import { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Auth = () => {
   const [accountStatus, setAccountStatus] = useState(false);
-
+  const [loadingStatus, setLoadingStatus] = useState(false);
+  const [errorStatus, setErrorStatus] = useState(null);
   const [inputValues, setInputValues] = useState({
     email: "",
     password: "",
   });
 
+  const navigate = useNavigate();
+
+  const alterAccountStatus = () => {
+    setAccountStatus(!accountStatus);
+    setErrorStatus(null);
+    setInputValues({ email: "", password: "" });
+  };
+
   const handleInputChange = (e) => {
+    setErrorStatus(null);
     setInputValues((prev) => {
       return {
         ...prev,
@@ -20,7 +32,39 @@ const Auth = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(inputValues);
+    setLoadingStatus(true);
+    setErrorStatus(null);
+    if (!accountStatus) {
+      axios
+        .post("/api/auth/sign-up-user", inputValues)
+        .then((res) => {
+          if (!res.data.success) {
+            setErrorStatus(res.data.message);
+          } else {
+            inputValues.password = "";
+            setAccountStatus(true);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          setErrorStatus("Bad request");
+        });
+    } else {
+      axios
+        .post("/api/auth/log-in-user", inputValues)
+        .then((res) => {
+          if (!res.data.success) {
+            setErrorStatus(res.data.message);
+          } else {
+            navigate("/");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          setErrorStatus("Bad request");
+        });
+    }
+    setLoadingStatus(false);
   };
 
   return (
@@ -59,11 +103,19 @@ const Auth = () => {
               value={inputValues.password}
               onChange={handleInputChange}
             />
+            <p className="text-base font-text font-normal text-red-500">
+              {errorStatus ? <span>{errorStatus}</span> : <span></span>}
+            </p>
             <button
               type="submit"
-              className="py-2 px-3 bg-blue-700 rounded-md border-2 border-solid border-blue-700 hover:opacity-95 text-white font-myBtn text-base capitalize"
+              disabled={loadingStatus}
+              className="py-2 px-3 bg-blue-700 rounded-md border-2 border-solid border-blue-700 hover:opacity-95 text-white font-myBtn text-base capitalize disabled:bg-blue-500 disabled:cursor-not-allowed"
             >
-              {accountStatus ? <>Login</> : <>Sign up</>}
+              {accountStatus ? (
+                <>{loadingStatus ? <>Logging in ...</> : <>Login</>}</>
+              ) : (
+                <>{loadingStatus ? <>Signing up ...</> : <>Sign up</>}</>
+              )}
             </button>
           </form>
           <div className="mt-3">
@@ -72,9 +124,7 @@ const Auth = () => {
                 <>
                   Don{"'"}t have account
                   <span
-                    onClick={() => {
-                      setAccountStatus(!accountStatus);
-                    }}
+                    onClick={alterAccountStatus}
                     className="text-base font-semibold text-blue-700 mx-1 cursor-pointer hover:underline"
                   >
                     Create now
@@ -84,9 +134,7 @@ const Auth = () => {
                 <>
                   Have an account ?
                   <span
-                    onClick={() => {
-                      setAccountStatus(!accountStatus);
-                    }}
+                    onClick={alterAccountStatus}
                     className="text-base font-semibold text-blue-700 mx-1 cursor-pointer hover:underline"
                   >
                     Login
