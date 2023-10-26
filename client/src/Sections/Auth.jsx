@@ -2,6 +2,7 @@ import Logo from "../assets/myLogo.jpg";
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import OAuth from "../Components/auth/OAuth";
 
 const Auth = () => {
   const [accountStatus, setAccountStatus] = useState(false);
@@ -113,7 +114,7 @@ const Auth = () => {
             <button
               type="submit"
               disabled={loadingStatus}
-              className="py-2 px-3 bg-blue-700 rounded-md border-2 border-solid border-blue-700 hover:opacity-95 text-white font-myBtn text-base capitalize disabled:bg-blue-500 disabled:cursor-not-allowed"
+              className="bg-blue-500 hover:bg-blue-700 font-bold py-2 px-4 rounded-full hover:opacity-95 text-white font-myBtn text-base capitalize disabled:bg-blue-500 disabled:cursor-not-allowed"
             >
               {accountStatus ? (
                 <>{loadingStatus ? <>Logging in ...</> : <>Login</>}</>
@@ -121,6 +122,7 @@ const Auth = () => {
                 <>{loadingStatus ? <>Signing up ...</> : <>Sign up</>}</>
               )}
             </button>
+            <OAuth />
           </form>
           <div className="mt-3">
             <p className="text-white text-sm font-text">
