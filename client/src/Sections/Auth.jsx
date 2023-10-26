@@ -34,35 +34,39 @@ const Auth = () => {
     e.preventDefault();
     setLoadingStatus(true);
     setErrorStatus(null);
-    if (!accountStatus) {
-      axios
-        .post("/api/auth/sign-up-user", inputValues)
-        .then((res) => {
-          if (!res.data.success) {
-            setErrorStatus(res.data.message);
-          } else {
-            inputValues.password = "";
-            setAccountStatus(true);
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-          setErrorStatus("Bad request");
-        });
+    if (!(inputValues.email.length > 0) || !(inputValues.length > 0)) {
+      setErrorStatus("* Fields cannot be empty");
     } else {
-      axios
-        .post("/api/auth/log-in-user", inputValues)
-        .then((res) => {
-          if (!res.data.success) {
-            setErrorStatus(res.data.message);
-          } else {
-            navigate("/");
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-          setErrorStatus("Bad request");
-        });
+      if (!accountStatus) {
+        axios
+          .post("/api/auth/sign-up-user", inputValues)
+          .then((res) => {
+            if (!res.data.success) {
+              setErrorStatus(res.data.message);
+            } else {
+              inputValues.password = "";
+              setAccountStatus(true);
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+            setErrorStatus("Bad request");
+          });
+      } else {
+        axios
+          .post("/api/auth/log-in-user", inputValues)
+          .then((res) => {
+            if (!res.data.success) {
+              setErrorStatus(res.data.message);
+            } else {
+              navigate("/");
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+            setErrorStatus("Bad request");
+          });
+      }
     }
     setLoadingStatus(false);
   };

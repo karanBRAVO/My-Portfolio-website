@@ -3,6 +3,7 @@ import CloseIcon from "./CloseIcon";
 import { useState } from "react";
 import LOGO from "../assets/myLogo.jpg";
 import AnchorLink from "react-anchor-link-smooth-scroll";
+import { Link } from "react-router-dom";
 
 const Links = [
   { name: "Home", linkto: "#mastheadSection" },
@@ -59,6 +60,11 @@ const Nav = () => {
           <div className="p-1 m-1">
             <ul className="p-1 m-1 flex items-center justify-center flex-col">
               {linkWrapper}
+              <Link to={"/authenticate-user"}>
+                <li className="cursor-pointer capitalize text-blue-600 text-xl p-1 m-1 font-navLinks">
+                  Authenticate
+                </li>
+              </Link>
             </ul>
             <div className="p-1 m-1 flex items-center justify-center">
               <div className="p-1 m-1 flex items-center justify-center flex-col">
