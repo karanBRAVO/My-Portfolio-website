@@ -1,7 +1,7 @@
 import nodemailer from "nodemailer";
 import secureObj from "../../secure.js";
 
-const mailer = ({ to, subject, template, attachments: [] }) => {
+const mailer = (to, subject, template, attachments = []) => {
   const transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
@@ -25,10 +25,11 @@ const mailer = ({ to, subject, template, attachments: [] }) => {
   transporter.sendMail(message, (err, info) => {
     if (err) {
       console.log("[!] Error");
-      return console.log(err);
+      console.log(err);
+      throw Error(err);
     }
     console.log("[+] Mail send successfully");
-    console.log(info);
+    console.log(info.messageId);
   });
 };
 
