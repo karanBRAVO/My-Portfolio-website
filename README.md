@@ -18,3 +18,7 @@
 
 - Run the client side: `npm run dev`
 - Run the api: `npm run dev`
+
+## Notes
+
+- sign in with pop_up only occur for one time for the user having only one email

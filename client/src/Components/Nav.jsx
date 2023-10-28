@@ -13,6 +13,11 @@ const Links = [
   { name: "Subscribe", linkto: "#footerSection" },
 ];
 
+const routes = [
+  { name: "Sign up", linkTo: "/sign-up" },
+  { name: "Login", linkTo: "/log-in" },
+];
+
 const Nav = () => {
   const [navLinkVisibility, setNavLinkVisibility] = useState(false);
   const linkWrapper = Links.map((value, index) => {
@@ -22,6 +27,15 @@ const Nav = () => {
           {value.name}
         </li>
       </AnchorLink>
+    );
+  });
+  const routesWrapper = routes.map((value, index) => {
+    return (
+      <Link to={value.linkTo} key={index}>
+        <li className="cursor-pointer capitalize text-blue-600 text-xl p-1 m-1 font-navLinks">
+          {value.name}
+        </li>
+      </Link>
     );
   });
 
@@ -60,11 +74,7 @@ const Nav = () => {
           <div className="p-1 m-1">
             <ul className="p-1 m-1 flex items-center justify-center flex-col">
               {linkWrapper}
-              <Link to={"/authenticate-user"}>
-                <li className="cursor-pointer capitalize text-blue-600 text-xl p-1 m-1 font-navLinks">
-                  Authenticate
-                </li>
-              </Link>
+              {routesWrapper}
             </ul>
             <div className="p-1 m-1 flex items-center justify-center">
               <div className="p-1 m-1 flex items-center justify-center flex-col">

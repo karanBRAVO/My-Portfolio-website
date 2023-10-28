@@ -4,8 +4,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import OAuth from "../Components/auth/OAuth";
 
-const Auth = () => {
-  const [accountStatus, setAccountStatus] = useState(false);
+const SignUp = () => {
   const [loadingStatus, setLoadingStatus] = useState(false);
   const [errorStatus, setErrorStatus] = useState(null);
   const [inputValues, setInputValues] = useState({
@@ -14,12 +13,6 @@ const Auth = () => {
   });
 
   const navigate = useNavigate();
-
-  const alterAccountStatus = () => {
-    setAccountStatus(!accountStatus);
-    setErrorStatus(null);
-    setInputValues({ email: "", password: "" });
-  };
 
   const handleInputChange = (e) => {
     setErrorStatus(null);
@@ -35,39 +28,23 @@ const Auth = () => {
     e.preventDefault();
     setLoadingStatus(true);
     setErrorStatus(null);
-    if (!(inputValues.email.length > 0) || !(inputValues.length > 0)) {
+
+    if (!(inputValues.email.length > 0) || !(inputValues.password.length > 0)) {
       setErrorStatus("* Fields cannot be empty");
     } else {
-      if (!accountStatus) {
-        axios
-          .post("/api/auth/sign-up-user", inputValues)
-          .then((res) => {
-            if (!res.data.success) {
-              setErrorStatus(res.data.message);
-            } else {
-              inputValues.password = "";
-              setAccountStatus(true);
-            }
-          })
-          .catch((err) => {
-            console.log(err);
-            setErrorStatus("Bad request");
-          });
-      } else {
-        axios
-          .post("/api/auth/log-in-user", inputValues)
-          .then((res) => {
-            if (!res.data.success) {
-              setErrorStatus(res.data.message);
-            } else {
-              navigate("/");
-            }
-          })
-          .catch((err) => {
-            console.log(err);
-            setErrorStatus("Bad request");
-          });
-      }
+      axios
+        .post("/api/auth/log-in-user", inputValues)
+        .then((res) => {
+          if (!res.data.success) {
+            setErrorStatus(res.data.message);
+          } else {
+            navigate("/");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          setErrorStatus("Error while submitting form");
+        });
     }
     setLoadingStatus(false);
   };
@@ -116,37 +93,21 @@ const Auth = () => {
               disabled={loadingStatus}
               className="bg-blue-500 hover:bg-blue-700 font-bold py-2 px-4 rounded-full hover:opacity-95 text-white font-myBtn text-base capitalize disabled:bg-blue-500 disabled:cursor-not-allowed"
             >
-              {accountStatus ? (
-                <>{loadingStatus ? <>Logging in ...</> : <>Login</>}</>
-              ) : (
-                <>{loadingStatus ? <>Signing up ...</> : <>Sign up</>}</>
-              )}
+              {loadingStatus ? <>Logging up ...</> : <>Log in</>}
             </button>
             <OAuth />
           </form>
           <div className="mt-3">
             <p className="text-white text-sm font-text">
-              {accountStatus ? (
-                <>
-                  Don{"'"}t have account
-                  <span
-                    onClick={alterAccountStatus}
-                    className="text-base font-semibold text-blue-700 mx-1 cursor-pointer hover:underline"
-                  >
-                    Create now
-                  </span>
-                </>
-              ) : (
-                <>
-                  Have an account ?
-                  <span
-                    onClick={alterAccountStatus}
-                    className="text-base font-semibold text-blue-700 mx-1 cursor-pointer hover:underline"
-                  >
-                    Login
-                  </span>
-                </>
-              )}
+              Don{"'"}t have account ?
+              <span
+                onClick={() => {
+                  navigate("/sign-up");
+                }}
+                className="text-base font-semibold text-blue-700 mx-1 cursor-pointer hover:underline"
+              >
+                Create-now
+              </span>
             </p>
           </div>
         </div>
@@ -155,4 +116,4 @@ const Auth = () => {
   );
 };
 
-export default Auth;
+export default SignUp;

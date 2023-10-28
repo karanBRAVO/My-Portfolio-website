@@ -11,6 +11,14 @@ const IsValidEmail = (email) => {
   return EmailValidator.validate(email);
 };
 
+const send_successful_signUp_mail = (email) => {
+  mailer(
+    email,
+    "Successfull login to MyBlog-KaranYadav",
+    signup_success_template()
+  );
+};
+
 const verifyUser = async (req, res) => {
   const { email, otp } = req.body;
 
@@ -41,11 +49,7 @@ const verifyUser = async (req, res) => {
     });
     await addUserToDb.save();
 
-    mailer(
-      email,
-      "Successfull login to MyBlog-KaranYadav",
-      signup_success_template()
-    );
+    send_successful_signUp_mail(email);
 
     res.json({ success: true, message: "[+] User added to database" });
   } catch (err) {
@@ -152,15 +156,16 @@ const signIn_google = async (req, res) => {
   const { email, emailVerified, photoUrl } = req.body;
 
   try {
+    // email not verfied
+    if (!emailVerified) {
+      const error = new Error("[-] User not verified");
+      throw error;
+    }
+
     const hasAccount = await authModel.findOne({ email });
 
     // log in
     if (hasAccount) {
-      if (!hasAccount.verified) {
-        const error = new Error("[-] User not verified");
-        throw error;
-      }
-
       res.json({ success: true, message: "[+] User logged in" });
     } else {
       const password = bcrypt.hashSync(
@@ -168,6 +173,8 @@ const signIn_google = async (req, res) => {
           Math.random().toString(36).slice(-8),
         10
       );
+
+      send_successful_signUp_mail(email);
 
       const addUserToDb = new authModel({
         email,
