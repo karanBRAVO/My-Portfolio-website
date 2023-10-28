@@ -6,6 +6,7 @@ import mailer from "../utilities/mailer/mailer.utility.js";
 import otpGenerator from "otp-generator";
 import otp_template from "../utilities/mailer/templates/otp.template.js";
 import signup_success_template from "../utilities/mailer/templates/signup_success.template.js";
+import jwt from "jsonwebtoken";
 
 const IsValidEmail = (email) => {
   return EmailValidator.validate(email);
@@ -17,6 +18,13 @@ const send_successful_signUp_mail = (email) => {
     "Successfull login to MyBlog-KaranYadav",
     signup_success_template()
   );
+};
+
+const genToken = (ID, expiry) => {
+  const token = jwt.sign({ user_id: ID }, process.env.SECRET_KEY, {
+    expiresIn: expiry,
+  });
+  return token;
 };
 
 const verifyUser = async (req, res) => {
@@ -146,7 +154,10 @@ const userLogin = async (req, res) => {
       throw error;
     }
 
-    res.json({ success: true, message: "[+] User logged in" });
+    // setting token
+    const token = genToken(verifyEmail._id, 60);
+
+    res.json({ success: true, message: "[+] User logged in", token });
   } catch (err) {
     res.json({ success: false, message: err.message });
   }
@@ -166,7 +177,9 @@ const signIn_google = async (req, res) => {
 
     // log in
     if (hasAccount) {
-      res.json({ success: true, message: "[+] User logged in" });
+      // setting token
+      const token = genToken(hasAccount._id, 60*60*24);
+      res.json({ success: true, message: "[+] User logged in", token });
     } else {
       const password = bcrypt.hashSync(
         Math.random().toString(36).slice(-8) +
