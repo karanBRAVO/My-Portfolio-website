@@ -155,7 +155,7 @@ const userLogin = async (req, res) => {
     }
 
     // setting token
-    const token = genToken(verifyEmail._id, 60);
+    const token = genToken(verifyEmail._id, 60 * 60 * 24);
 
     res.json({ success: true, message: "[+] User logged in", token });
   } catch (err) {
@@ -178,7 +178,7 @@ const signIn_google = async (req, res) => {
     // log in
     if (hasAccount) {
       // setting token
-      const token = genToken(hasAccount._id, 60*60*24);
+      const token = genToken(hasAccount._id, 60 * 60 * 24);
       res.json({ success: true, message: "[+] User logged in", token });
     } else {
       const password = bcrypt.hashSync(

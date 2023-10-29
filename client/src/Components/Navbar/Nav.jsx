@@ -1,9 +1,11 @@
 import Hamburger from "./Hamburger";
 import CloseIcon from "./CloseIcon";
-import { useState } from "react";
-import LOGO from "../assets/myLogo.jpg";
+import { useEffect, useRef, useState } from "react";
+import LOGO from "../../assets/myLogo.jpg";
 import AnchorLink from "react-anchor-link-smooth-scroll";
 import { Link } from "react-router-dom";
+import Profile from "../../Pages/Profile";
+import Skeleton from "./Skeleton";
 
 const Links = [
   { name: "Home", linkto: "#mastheadSection" },
@@ -20,6 +22,9 @@ const routes = [
 
 const Nav = () => {
   const [navLinkVisibility, setNavLinkVisibility] = useState(false);
+  const [showProfile, setShowProfile] = useState(false);
+  const [loading, setLoading] = useState(false);
+
   const linkWrapper = Links.map((value, index) => {
     return (
       <AnchorLink href={value.linkto} key={index}>
@@ -43,17 +48,31 @@ const Nav = () => {
   const incNavWidth = () => {
     setNavwidth(navwidth + 100);
     setNavLinkVisibility(!navLinkVisibility);
+    setShowProfile(false);
+    setLoading(true);
   };
   const decNavWidth = () => {
     setNavwidth(navwidth - 100);
     setNavLinkVisibility(!navLinkVisibility);
+    setShowProfile(false);
   };
+
+  const nav = useRef();
+  useEffect(() => {
+    const handleResize = () => {
+      if (navwidth >= 75 + 100 - 0.05) {
+        setLoading(false);
+      }
+    };
+    nav.current.addEventListener("transitionend", handleResize);
+  }, [navwidth]);
 
   return (
     <>
       <div
-        className="fixed left-0 top-0 h-full bg-[#1b1b1b] transition-all duration-[.5s] ease-linear"
+        className="fixed left-0 top-0 h-full bg-[#1b1b1b] transition-all duration-[.5s] ease-linear overflow-x-auto overflow-y-hidden custom-scrollbar"
         style={{ width: navwidth }}
+        ref={nav}
       >
         <div className="flex items-center justify-center m-2 p-2">
           {!navLinkVisibility ? (
@@ -70,11 +89,24 @@ const Nav = () => {
               </span>
             </div>
           </div>
+        ) : loading ? (
+          <>
+            <Skeleton arr={Links} />
+          </>
         ) : (
           <div className="p-1 m-1">
-            <ul className="p-1 m-1 flex items-center justify-center flex-col">
+            <ul className="p-1 m-1 flex items-start justify-center flex-col">
               {linkWrapper}
               {routesWrapper}
+              {!showProfile ? <></> : <Profile />}
+              <li
+                onClick={() => {
+                  setShowProfile(!showProfile);
+                }}
+                className="cursor-pointer capitalize text-blue-600 text-xl p-1 m-1 font-navLinks"
+              >
+                Profile
+              </li>
             </ul>
             <div className="p-1 m-1 flex items-center justify-center">
               <div className="p-1 m-1 flex items-center justify-center flex-col">

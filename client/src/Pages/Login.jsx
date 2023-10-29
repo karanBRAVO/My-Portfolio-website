@@ -4,7 +4,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import OAuth from "../Components/auth/OAuth";
 
-const SignUp = () => {
+const Login = () => {
   const [loadingStatus, setLoadingStatus] = useState(false);
   const [errorStatus, setErrorStatus] = useState(null);
   const [inputValues, setInputValues] = useState({
@@ -38,11 +38,13 @@ const SignUp = () => {
           if (!res.data.success) {
             setErrorStatus(res.data.message);
           } else {
+            const token = res.data.token;
+            localStorage.setItem("token", token);
             navigate("/");
           }
         })
         .catch((err) => {
-          console.log(err);
+          console.error(err);
           setErrorStatus("Error while submitting form");
         });
     }
@@ -116,4 +118,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+export default Login;

@@ -9,7 +9,7 @@ export default {
       myBtn: ["Noto Sans", "sans-serif"],
       aboutMeFont: ["Libre Baskerville", "serif"],
       heading: ["Young Serif", "serif"],
-      text: ['Play', "sans-serif"],
+      text: ["Play", "sans-serif"],
       projectsTitle: ["Baloo Tammudu 2", "cursive"],
     },
     extend: {},

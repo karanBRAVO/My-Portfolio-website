@@ -54,7 +54,7 @@ const Project = () => {
           quote={"Design is intelligence made visible."}
         />
         <div
-          className="m-2 p-2 grid overflow-y-auto h-[76vh]"
+          className="m-2 p-2 grid overflow-y-auto overflow-x-hidden h-[76vh] custom-scrollbar"
           style={{
             gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))",
           }}

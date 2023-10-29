@@ -1,9 +1,9 @@
 import Home from "./Pages/Home";
 import ShowProjects from "./Pages/ShowProjects";
-import NoPage from "./Sections/NoPage";
+import NoPage from "./Pages/NoPage";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import SignUp from "./Sections/SignUp";
-import Login from "./Sections/Login";
+import SignUp from "./Pages/SignUp";
+import Login from "./Pages/Login";
 
 const App = () => {
   return (

@@ -1,4 +1,4 @@
-import Nav from "../Components/Nav";
+import Nav from "../Components/Navbar/Nav";
 import Masthead from "../Sections/Masthead";
 import Project from "../Sections/Project";
 import About from "../Sections/About";
