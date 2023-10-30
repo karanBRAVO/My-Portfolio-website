@@ -5,6 +5,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import SignUp from "./Pages/SignUp";
 import Login from "./Pages/Login";
 import { useSelector } from "react-redux";
+import Terms_of_Services from "./Pages/Terms_of_Services";
+import Privacy_Policy from "./Pages/Privacy_Policy";
 
 const App = () => {
   const loginState = useSelector((state) => state.login.credentials);
@@ -23,6 +25,12 @@ const App = () => {
           ) : (
             <></>
           )}
+          <Route exact path="/my/privacy-policy" element={<Privacy_Policy />} />
+          <Route
+            exact
+            path="/my/terms-of-services"
+            element={<Terms_of_Services />}
+          />
           <Route exact path="*" element={<NoPage />} />
         </Routes>
       </BrowserRouter>

@@ -12,7 +12,7 @@ import { faCode } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { logout } from "../store/features/loginSlice.js";
 
 const Footer = () => {
@@ -153,10 +153,18 @@ const Footer = () => {
           </div>
           <div className="flex flex-row items-center justify-center m-2 p-2">
             <div className="m-1 p-1">
-              <p className="font-bold text-[#6363d1]">Privacy Policy</p>
+              <Link to={"/my/privacy-policy"}>
+                <p className="font-bold text-[#6363d1] cursor-pointer">
+                  Privacy Policy
+                </p>
+              </Link>
             </div>
             <div className="m-1 p-1">
-              <p className="font-bold text-[#6363d1]">Terms of Service</p>
+              <Link to={"/my/terms-of-services"}>
+                <p className="font-bold text-[#6363d1] cursor-pointer">
+                  Terms of Service
+                </p>
+              </Link>
             </div>
           </div>
         </div>
