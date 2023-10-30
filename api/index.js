@@ -7,6 +7,7 @@ import skillRouter from "./routes/skill.route.js";
 import authRouter from "./routes/auth.route.js";
 import profileRouter from "./routes/userProfile.route.js";
 import userSubscriptionRouter from "./routes/userSubscription.route.js";
+import userMessageToMeRouter from "./routes/userMessage_toMe.route.js";
 
 const APP = express();
 dotEnv.config();
@@ -21,6 +22,7 @@ APP.use("/api", skillRouter);
 APP.use("/api/auth", authRouter);
 APP.use("/api", profileRouter);
 APP.use("/api", userSubscriptionRouter);
+APP.use("/api", userMessageToMeRouter);
 
 APP.listen(PORT, (err) => {
   if (err) {

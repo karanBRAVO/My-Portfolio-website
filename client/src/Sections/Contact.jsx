@@ -2,21 +2,64 @@ import Title from "../Components/Title";
 import CONTACT_BANNER from "../assets/contact_me.jpg";
 import BG_IMG from "../assets/contactBG.jpg";
 import { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Contact = () => {
+  const loginState = useSelector((state) => state.login.credentials);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const [senderData, setSenderData] = useState({
     name: "",
-    email: "",
+    email: loginState.email,
     phone: "",
     msg: "",
   });
+  const [errorInfo, setErrorInfo] = useState(null);
 
   const handleSubmit = (e) => {
+    setErrorInfo(null);
     e.preventDefault();
-    console.log(senderData);
+
+    if (
+      senderData.email &&
+      senderData.name &&
+      senderData.phone &&
+      senderData.msg
+    ) {
+      if (senderData.email == loginState.email) {
+        axios
+          .post("/api/user/send-message/to-me", senderData, {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer: ${loginState.token}`,
+            },
+          })
+          .then((res) => {
+            console.log(res);
+            if (res.data.success) {
+              setSenderData((prev) => {
+                return { ...prev, msg: "" };
+              });
+            }
+          })
+          .catch((err) => console.log(err));
+      } else {
+        if (loginState.token) {
+          dispatch(logout());
+        }
+        navigate("/sign-up");
+      }
+    } else {
+      setErrorInfo("* Fields cannot be empty");
+    }
   };
 
   const handleOnchange = (e) => {
+    setErrorInfo(null);
+
     const { name, value } = e.target;
     setSenderData((prev) => {
       return {
@@ -55,6 +98,9 @@ const Contact = () => {
                 placeholder="Name *"
                 value={senderData.name}
                 onChange={handleOnchange}
+                onFocus={() => {
+                  setErrorInfo(null);
+                }}
                 autoComplete="off"
               />
             </div>
@@ -66,6 +112,9 @@ const Contact = () => {
                 placeholder="Mobile Number *"
                 value={senderData.phone}
                 onChange={handleOnchange}
+                onFocus={() => {
+                  setErrorInfo(null);
+                }}
                 autoComplete="off"
               />
             </div>
@@ -77,6 +126,9 @@ const Contact = () => {
                 placeholder="Email *"
                 value={senderData.email}
                 onChange={handleOnchange}
+                onFocus={() => {
+                  setErrorInfo(null);
+                }}
                 autoComplete="off"
               />
             </div>
@@ -89,9 +141,21 @@ const Contact = () => {
                 className="bg-transparent border-2 border-solid border-[gold] rounded-2xl p-3 m-1 text-white outline-none font-text w-[290px] h-[190px] resize-none"
                 value={senderData.msg}
                 onChange={handleOnchange}
+                onFocus={() => {
+                  setErrorInfo(null);
+                }}
               ></textarea>
             </div>
-            <div className="p-1 m-2">
+            {errorInfo ? (
+              <div className="ml-3 pl-3">
+                <p className="text-sm font-text font-black bg-[#0000008b] text-red-700 w-fit px-[4px] rounded-md">
+                  {errorInfo}
+                </p>
+              </div>
+            ) : (
+              <></>
+            )}
+            <div className="p-1 m-2 ml-4">
               <button className="text-black bg-[gold] border-2 border-solid border-[gold] rounded-lg cursor-pointer px-6 py-3 font-semibold font-text">
                 Send
               </button>

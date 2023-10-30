@@ -1,5 +1,4 @@
 import bcrypt from "bcrypt";
-import * as EmailValidator from "email-validator";
 import authModel from "../models/auth.model.js";
 import otpModel from "../models/otp.model.js";
 import mailer from "../utilities/mailer/mailer.utility.js";
@@ -7,10 +6,7 @@ import otpGenerator from "otp-generator";
 import otp_template from "../utilities/mailer/templates/otp.template.js";
 import signup_success_template from "../utilities/mailer/templates/signup_success.template.js";
 import jwt from "jsonwebtoken";
-
-const IsValidEmail = (email) => {
-  return EmailValidator.validate(email);
-};
+import { IsValidEmail } from "../utilities/validators/email.validator.js";
 
 const send_successful_signUp_mail = (email) => {
   mailer(

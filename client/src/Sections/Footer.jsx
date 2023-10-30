@@ -11,10 +11,14 @@ import {
 import { faCode } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { logout } from "../store/features/loginSlice.js";
 
 const Footer = () => {
   const loginState = useSelector((state) => state.login.credentials);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [email, setEmail] = useState(loginState.email);
 
@@ -42,21 +46,28 @@ const Footer = () => {
     e.preventDefault();
 
     if (email) {
-      axios
-        .post(
-          "/api/user/subscribe-user",
-          { email },
-          {
-            headers: {
-              Authorization: `Bearer: ${loginState.token}`,
-              "Content-Type": "application/json",
-            },
-          }
-        )
-        .then((res) => {
-          console.log(res); // push notification instead
-        })
-        .catch((err) => console.log(err));
+      if (email == loginState.email) {
+        axios
+          .post(
+            "/api/user/subscribe-user",
+            { email },
+            {
+              headers: {
+                Authorization: `Bearer: ${loginState.token}`,
+                "Content-Type": "application/json",
+              },
+            }
+          )
+          .then((res) => {
+            console.log(res);
+          })
+          .catch((err) => console.log(err));
+      } else {
+        if (loginState.token) {
+          dispatch(logout());
+        }
+        navigate("/sign-up");
+      }
     }
   };
 
