@@ -9,10 +9,18 @@ import {
   faGithub,
 } from "@fortawesome/free-brands-svg-icons";
 import { faCode } from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { useSelector } from "react-redux";
 
 const Footer = () => {
-  const [email, setEmail] = useState("");
+  const loginState = useSelector((state) => state.login.credentials);
+
+  const [email, setEmail] = useState(loginState.email);
+
+  useEffect(() => {
+    setEmail(loginState.email);
+  }, [loginState]);
 
   const socialMediaLinks = [
     {
@@ -30,8 +38,26 @@ const Footer = () => {
     },
   ];
 
-  const handleSubmit = (e) => {
+  const handleSubscription = (e) => {
     e.preventDefault();
+
+    if (email) {
+      axios
+        .post(
+          "/api/user/subscribe-user",
+          { email },
+          {
+            headers: {
+              Authorization: `Bearer: ${loginState.token}`,
+              "Content-Type": "application/json",
+            },
+          }
+        )
+        .then((res) => {
+          console.log(res); // push notification instead
+        })
+        .catch((err) => console.log(err));
+    }
   };
 
   const handleInputChange = (e) => {
@@ -97,7 +123,7 @@ const Footer = () => {
               Subscribe for Updates
             </h1>
             <form
-              onSubmit={handleSubmit}
+              onSubmit={handleSubscription}
               className="flex flex-row items-center justify-center"
             >
               <input

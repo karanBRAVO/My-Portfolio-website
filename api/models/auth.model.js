@@ -22,6 +22,11 @@ const authSchema = new mongoose.Schema({
     default:
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQl0RfnwxikjcUFQjgV8CP2lM1zHdthx9PUHkJ57NW-yQWBCUBFvZIH&usqp=CAE&s",
   },
+  subscribed: {
+    type: Boolean,
+    required: false,
+    default: false,
+  },
 });
 
 const authModel = new mongoose.model("User", authSchema);
