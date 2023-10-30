@@ -197,7 +197,11 @@ const signIn_google = async (req, res) => {
       });
 
       await addUserToDb.save();
-      res.json({ success: true, message: "[+] User Added to database" });
+
+      const hasAccount = await authModel.findOne({ email });
+      const token = genToken(hasAccount._id, 60 * 60 * 24);
+
+      res.json({ success: true, message: "[+] User Added to database", token });
     }
   } catch (error) {
     res.json({ success: false, message: error.message });

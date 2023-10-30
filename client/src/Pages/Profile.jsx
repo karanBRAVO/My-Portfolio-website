@@ -1,8 +1,12 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import Skeleton from "../Components/Profile/Skeleton";
+import { useSelector, useDispatch } from "react-redux";
+import { logout } from "../store/features/loginSlice";
 
 const Profile = () => {
+  const loginState = useSelector((state) => state.login.credentials);
+  const dispatch = useDispatch();
+
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState({
     photoUrl: "",
@@ -11,32 +15,19 @@ const Profile = () => {
 
   useEffect(() => {
     setLoading(true);
-    const token = localStorage.getItem("token");
 
-    if (token) {
-      axios
-        .get("/api/profile/get-user", {
-          headers: {
-            Authorization: `Bearer: ${token}`,
-            "Content-Type": "application/json",
-          },
-        })
-        .then((res) => {
-          if (res.data.success) {
-            setData({
-              email: res.data.data.email,
-              photoUrl: res.data.data.photoUrl,
-            });
-            setLoading(false);
-          }
-        })
-        .catch((err) => {
-          console.error(err);
-        });
+    if (loginState.email && loginState.photoUrl) {
+      setData({
+        photoUrl: loginState.photoUrl,
+        email: loginState.email,
+      });
+      setLoading(false);
     }
-  }, []);
+  }, [loginState]);
 
-  const logout = () => {};
+  const handleLogout = () => {
+    dispatch(logout());
+  };
 
   return (
     <>
@@ -61,7 +52,7 @@ const Profile = () => {
           )}
           <div className="mt-4 text-center">
             <button
-              onClick={logout}
+              onClick={handleLogout}
               className="bg-red-500 text-white px-4 py-2 rounded-full font-semibold hover:bg-red-600"
             >
               Logout

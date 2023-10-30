@@ -6,6 +6,7 @@ import AnchorLink from "react-anchor-link-smooth-scroll";
 import { Link } from "react-router-dom";
 import Profile from "../../Pages/Profile";
 import Skeleton from "./Skeleton";
+import { useSelector } from "react-redux";
 
 const Links = [
   { name: "Home", linkto: "#mastheadSection" },
@@ -21,6 +22,8 @@ const routes = [
 ];
 
 const Nav = () => {
+  const loginState = useSelector((state) => state.login.credentials);
+
   const [navLinkVisibility, setNavLinkVisibility] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -97,16 +100,21 @@ const Nav = () => {
           <div className="p-1 m-1">
             <ul className="p-1 m-1 flex items-start justify-center flex-col">
               {linkWrapper}
-              {routesWrapper}
-              {!showProfile ? <></> : <Profile />}
-              <li
-                onClick={() => {
-                  setShowProfile(!showProfile);
-                }}
-                className="cursor-pointer capitalize text-blue-600 text-xl p-1 m-1 font-navLinks"
-              >
-                Profile
-              </li>
+              {!loginState.token ? (
+                routesWrapper
+              ) : (
+                <>
+                  {!showProfile ? <></> : <Profile />}
+                  <li
+                    onClick={() => {
+                      setShowProfile(!showProfile);
+                    }}
+                    className="cursor-pointer capitalize text-blue-600 text-xl p-1 m-1 font-navLinks"
+                  >
+                    Profile
+                  </li>
+                </>
+              )}
             </ul>
             <div className="p-1 m-1 flex items-center justify-center">
               <div className="p-1 m-1 flex items-center justify-center flex-col">

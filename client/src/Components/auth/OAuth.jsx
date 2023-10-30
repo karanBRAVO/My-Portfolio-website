@@ -4,8 +4,13 @@ import { app } from "../../firebase.js";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { setToken, setInfo } from "../../store/features/loginSlice.js";
 
 const OAuth = () => {
+  const loginState = useSelector((state) => state.login.credentials);
+  const dispatch = useDispatch();
+
   const navigate = useNavigate();
   const [loadingStatus, setLoadingStatus] = useState(false);
 
@@ -24,15 +29,22 @@ const OAuth = () => {
         photoUrl: res.user.photoURL,
       };
 
-      const result = await axios.post("/api/auth/authenticate-with-google", data);
+      const result = await axios.post(
+        "/api/auth/authenticate-with-google",
+        data
+      );
 
-      if (!result.data.success) {
-        alert("[!] Unable to authenticate your email");
-      } else {
+      if (result.data.success) {
+        const token = result.data.token;
+
+        dispatch(setToken({ token }));
+        dispatch(setInfo({ email: data.email, photoUrl: data.photoUrl }));
+
         navigate("/");
       }
     } catch (err) {
       console.log(err);
+      alert("[!] Unable to authenticate your email");
     }
 
     setLoadingStatus(false);

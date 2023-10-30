@@ -3,6 +3,8 @@ import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import OAuth from "../Components/auth/OAuth";
+import { useDispatch } from "react-redux";
+import { setToken, setInfo } from "../store/features/loginSlice";
 
 const Login = () => {
   const [loadingStatus, setLoadingStatus] = useState(false);
@@ -11,6 +13,8 @@ const Login = () => {
     email: "",
     password: "",
   });
+
+  const dispatch = useDispatch();
 
   const navigate = useNavigate();
 
@@ -39,7 +43,29 @@ const Login = () => {
             setErrorStatus(res.data.message);
           } else {
             const token = res.data.token;
-            localStorage.setItem("token", token);
+
+            axios
+              .get("/api/profile/get-user", {
+                headers: {
+                  Authorization: `Bearer: ${token}`,
+                  "Content-Type": "application/json",
+                },
+              })
+              .then((res) => {
+                if (res.data.success) {
+                  dispatch(
+                    setInfo({
+                      email: res.data.data.email,
+                      photoUrl: res.data.data.photoUrl,
+                    })
+                  );
+                }
+              })
+              .catch((err) => {
+                console.error(err);
+              });
+
+            dispatch(setToken({ token: token }));
             navigate("/");
           }
         })
