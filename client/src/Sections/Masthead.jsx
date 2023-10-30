@@ -6,7 +6,7 @@ const Masthead = () => {
     <>
       <div
         id="mastheadSection"
-        className={`ml-[75.5px] h-[100vh] bg-slate-500`}
+        className={`ml-[75.5px] h-screen w-full md:w-auto bg-slate-500`}
         style={{
           background: `url(${BG_IMG})`,
           backgroundRepeat: "no-repeat",

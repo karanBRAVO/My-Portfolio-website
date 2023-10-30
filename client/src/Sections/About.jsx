@@ -5,7 +5,10 @@ import MY_PHOTO from "../assets/myPhoto.jpg";
 const About = () => {
   return (
     <>
-      <div className={`ml-[75.5px] h-[100vh] bg-white`} id="aboutSection">
+      <div
+        className={`ml-[75.5px] h-screen w-full md:w-auto bg-white`}
+        id="aboutSection"
+      >
         <Title
           imgSrc={ABOUT_BANNER}
           quote={"You will DIE but the words you speak will LIVE Forever."}
@@ -23,7 +26,7 @@ const About = () => {
               Introduction
             </h1>
             <span className="text-sm font-aboutMeFont text-black p-2 text-left">
-              Greetings! I am KARAN YADAV, a Software Developer with a passion
+              {`Greetings! I am KARAN YADAV, a Software Developer with a passion
               for Machine Learning. With 6 months of experience, I have honed my
               skills in Python. Lorem, ipsum dolor sit amet consectetur
               adipisicing elit. Sint obcaecati perferendis nesciunt laboriosam
@@ -32,7 +35,7 @@ const About = () => {
               velit laborum ab sint quis soluta reprehenderit nesciunt suscipit
               fugit minus unde deserunt hic cumque corrupti quae, doloremque
               totam iusto. Mollitia aliquid placeat dicta quo eos debitis vero
-              voluptates aperiam!
+              voluptates aperiam!`.substring(0, 300)}
             </span>
           </div>
         </div>

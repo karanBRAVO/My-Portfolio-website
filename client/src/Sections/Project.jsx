@@ -48,7 +48,7 @@ const projects = [
 const Project = () => {
   return (
     <>
-      <div className={`ml-[75.5px] h-[100vh] bg-[#e5e6ea]`} id="projectSection">
+      <div className={`ml-[75.5px] h-screen w-full md:w-auto bg-[#e5e6ea]`} id="projectSection">
         <Title
           imgSrc={PROJECT_BANNER}
           quote={"Design is intelligence made visible."}

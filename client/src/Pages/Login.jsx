@@ -68,7 +68,7 @@ const Login = () => {
             className="gap-3 flex flex-col items-center justify-center p-2"
           >
             <input
-              className="px-2 py-1 rounded-md border-[1px] border-solid border-white text-white bg-transparent text-base font-semibold outline-none"
+              className="px-2 py-1 rounded-md border-[1px] border-solid border-white text-white bg-transparent text-base font-semibold outline-none my-1"
               type="email"
               name="email"
               id="useremail"
@@ -78,7 +78,7 @@ const Login = () => {
               onChange={handleInputChange}
             />
             <input
-              className="px-2 py-1 rounded-md border-[1px] border-solid border-white text-white bg-transparent text-base font-semibold outline-none"
+              className="px-2 py-1 rounded-md border-[1px] border-solid border-white text-white bg-transparent text-base font-semibold outline-none my-1"
               type="password"
               name="password"
               id="userpassword"
@@ -87,13 +87,13 @@ const Login = () => {
               value={inputValues.password}
               onChange={handleInputChange}
             />
-            <p className="text-base font-text font-normal text-red-500">
+            <p className="text-base font-text font-normal text-red-500 my-1">
               {errorStatus ? <span>{errorStatus}</span> : <span></span>}
             </p>
             <button
               type="submit"
               disabled={loadingStatus}
-              className="bg-blue-500 hover:bg-blue-700 font-bold py-2 px-4 rounded-full hover:opacity-95 text-white font-myBtn text-base capitalize disabled:bg-blue-500 disabled:cursor-not-allowed"
+              className="bg-blue-500 hover:bg-blue-700 font-bold py-2 px-4 rounded-full hover:opacity-95 text-white font-myBtn text-base capitalize disabled:bg-blue-500 disabled:cursor-not-allowed my-1"
             >
               {loadingStatus ? <>Logging up ...</> : <>Log in</>}
             </button>

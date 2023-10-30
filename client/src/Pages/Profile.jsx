@@ -12,7 +12,7 @@ const Profile = () => {
   useEffect(() => {
     setLoading(true);
     const token = localStorage.getItem("token");
-    
+
     if (token) {
       axios
         .get("/api/profile/get-user", {
@@ -40,8 +40,8 @@ const Profile = () => {
 
   return (
     <>
-      <div className="absolute ml-[310px] md:ml-[330px] mt-12">
-        <div className="bg-white p-5 rounded-lg shadow-lg flex items-center justify-center flex-col">
+      <div className="fixed ml-[110px] sm:ml-[120px] md:ml-[130px] z-10">
+        <div className="bg-white p-5 rounded-lg shadow-md shadow-slate-400 flex items-center justify-center flex-col">
           {loading ? (
             <>
               <Skeleton />

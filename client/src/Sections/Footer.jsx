@@ -42,13 +42,13 @@ const Footer = () => {
     <>
       <div
         id="footerSection"
-        className="p-2 text-white h-[100vh] bg-slate-900 ml-[75.5px] flex flex-col items-center justify-center md:flex-row"
+        className="p-2 text-white h-screen w-full md:w-auto bg-slate-900 ml-[75.5px] flex flex-col items-center justify-center md:flex-row"
       >
         <div className="md:w-1/2 h-[100vh] flex items-center justify-center flex-col mx-1">
-          <img src={LOGO} alt="myLogo" className="w-[200px]" />
+          <img src={LOGO} alt="myLogo" className="w-[100px] md:w-[200px]" />
           <div className="m-1 p-1">
             <p className="text-center">
-              <span className="text-md text-[skyblue] capitalize">
+              <span className="text-sm md:text-md text-[skyblue] capitalize">
                 &copy; 2023 Karan Yadav.
               </span>
               <span className="mx-1">All Rights Reserved.</span>

@@ -81,7 +81,7 @@ const ProjectCard = ({
               return (
                 <span
                   key={index}
-                  className="text-md font-normal font-navlinks text-sky-600 capitalize hover:underline"
+                  className="text-md font-normal font-navlinks text-sky-600 capitalize mx-1 my-[0.9px] hover:underline"
                 >
                   {value}
                 </span>
