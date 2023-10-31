@@ -1,27 +1,25 @@
 import projectModel from "../models/project.model.js";
 
-const getController = (req, res) => {
-  projectModel
-    .find()
-    .then((data) => {
-      if (data != null && data.length > 0) {
-        res.send(data);
-      } else {
-        res.send("[-] projects not found");
-      }
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+const getController = async (req, res) => {
+  try {
+    const projects = await projectModel.find();
+    if (!projects) {
+      const error = new Error("[-] no projects found.");
+      throw error;
+    }
+    res.json({ success: true, message: "[+] Projects sent.", data: projects });
+  } catch (err) {
+    res.json({ success: false, message: err.message });
+  }
 };
 
 const postController = async (req, res) => {
   try {
     const addDataToDb = new projectModel(req.body);
     await addDataToDb.save();
-    res.send("[+] project info added to db.");
+    res.json({ success: true, message: "[+] Project added to database." });
   } catch (err) {
-    console.log(err);
+    res.json({ success: false, message: err.message });
   }
 };
 

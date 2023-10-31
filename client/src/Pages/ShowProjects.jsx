@@ -3,42 +3,31 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHubspot } from "@fortawesome/free-brands-svg-icons";
 import Logo from "../assets/myLogo.jpg";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import Loading from "../Components/Loading";
 
 const ShowProjects = () => {
-  const data = [
-    {
-      proejctCount: 1,
-      projectName: "Code Editor",
-      projectDescription:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic repellat harum perferendis corporis obcaecati necessitatibus id odio alias. Cumque libero error dicta voluptates exercitationem? Id, sed iusto? Incidunt, repellendus harum consequuntur nobis voluptas officiis obcaecati laudantium, mollitia quaerat modi consectetur.",
-      projectKeyFeatures: [
-        "You can save the file locally or download it",
-        "change the orientation",
-        "get real time results",
-      ],
-      projectLinks: [
-        { sourceName: "Github", linkTo: "https://github.com/" },
-        { sourceName: "Netlify", linkTo: "https://www.netlify.com/" },
-      ],
-      projectPreviews: [
-        {
-          tag: "img",
-          src: "https://images.unsplash.com/photo-1526498460520-4c246339dccb?auto=format&fit=crop&q=60&w=600&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTN8fGNvZGUlMjBlZGl0b3J8ZW58MHx8MHx8fDA%3D",
-        },
-        {
-          tag: "img",
-          src: "https://images.unsplash.com/photo-1523437113738-bbd3cc89fb19?auto=format&fit=crop&q=60&w=600&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTl8fGNvZGUlMjBlZGl0b3J8ZW58MHx8MHx8fDA%3D",
-        },
-        {
-          tag: "iframe",
-          src: "https://www.youtube.com/embed/PU9I-FAhHvE",
-          title:
-            "[8K] AC Unity RTX 4090 - RAYTRACING - Extreme Settings - BeyondallLimits - ULTRA GRAPHICS SHOWCASE",
-        },
-      ],
-      projectKeywords: ["HTML", "CSS", "Javascript"],
-    },
-  ];
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setLoading(true);
+
+    const fetchProjects = async () => {
+      try {
+        const res = await axios.get("/api/get-project-info");
+        if (res.data.success) {
+          setLoading(false);
+          setData(res.data.data);
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchProjects();
+  }, []);
 
   return (
     <>
@@ -52,20 +41,26 @@ const ShowProjects = () => {
             </div>
           </Link>
         </div>
-        {data.map((value, index) => {
-          return (
-            <ProjectCard
-              key={index}
-              projectCount={value.proejctCount}
-              projectName={value.projectName}
-              projectDescription={value.projectDescription}
-              projectKeyFeatures={value.projectKeyFeatures}
-              projectLinks={value.projectLinks}
-              projectPreviews={value.projectPreviews}
-              projectKeywords={value.projectKeywords}
-            />
-          );
-        })}
+        {loading ? (
+          <Loading />
+        ) : (
+          data.map((value, index) => {
+            return (
+              <ProjectCard
+                key={index}
+                projectCount={index + 1}
+                projectCreatedAt={value.createdAt}
+                projectUpdatedAt={value.updatedAt}
+                projectName={value.projectName}
+                projectDescription={value.projectDescription}
+                projectKeyFeatures={value.projectKeyFeatures}
+                projectLinks={value.projectLinks}
+                projectPreviews={value.projectPreviews}
+                projectKeywords={value.projectKeywords}
+              />
+            );
+          })
+        )}
       </section>
     </>
   );

@@ -3,6 +3,8 @@ import Title from "./Title";
 
 const ProjectCard = ({
   projectCount = 1,
+  projectCreatedAt,
+  projectUpdatedAt,
   projectName = "project name",
   projectDescription = "this is project description",
   projectKeyFeatures = [],
@@ -14,6 +16,14 @@ const ProjectCard = ({
     <>
       <div className="bg-white rounded-3xl mx-auto my-5 w-[95.5%] max-h-fit p-4 shadow-lg shadow-blue-300">
         <Heading count={projectCount} projectName={projectName} />
+        <div className="ml-5 m-1 p-2 bg-slate-300 rounded-lg">
+          <Title title={"Created At"} />
+          <p className="px-1 m-1 font-text text-sm font-semibold">{projectCreatedAt}</p>
+        </div>
+        <div className="ml-5 m-1 p-2 bg-slate-300 rounded-lg">
+          <Title title={"Updated At"} />
+          <p className="px-1 m-1 font-text text-sm font-semibold">{projectUpdatedAt}</p>
+        </div>
         <div className="ml-5 m-1 p-2 bg-slate-300 rounded-lg">
           <Title title={"Description"} />
           <p className="ml-2 p-1 text-left text-sm font-text font-extralight text-gray-700">
