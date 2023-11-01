@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { logout } from "../store/features/loginSlice.js";
+import { toast } from "react-toastify";
 
 const Contact = () => {
   const loginState = useSelector((state) => state.login.credentials);
@@ -44,14 +45,47 @@ const Contact = () => {
               setSenderData((prev) => {
                 return { ...prev, msg: "" };
               });
+
+              toast.success(`Message sent`, {
+                position: "bottom-left",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+              });
+            } else {
+              toast.error(`Cannot send message`, {
+                position: "bottom-left",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+              });
             }
           })
           .catch((err) => console.log(err));
       } else {
-        if (loginState) {
+        if (loginState.isLoggedIn) {
           dispatch(logout());
         }
         navigate("/sign-up");
+
+        toast.info(`Sign-up || Sign-in`, {
+          position: "bottom-left",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
       }
     } else {
       setErrorInfo("* Fields cannot be empty");

@@ -7,6 +7,8 @@ import Login from "./Pages/Login";
 import { useSelector } from "react-redux";
 import Terms_of_Services from "./Pages/Terms_of_Services";
 import Privacy_Policy from "./Pages/Privacy_Policy";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const App = () => {
   const loginState = useSelector((state) => state.login.credentials);
@@ -34,6 +36,18 @@ const App = () => {
           <Route exact path="*" element={<NoPage />} />
         </Routes>
       </BrowserRouter>
+      <ToastContainer
+        position="bottom-left"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
     </>
   );
 };

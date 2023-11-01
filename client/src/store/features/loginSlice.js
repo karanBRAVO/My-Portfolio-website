@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const initialState = {
   credentials: {
@@ -25,7 +26,29 @@ const loginSlice = createSlice({
       axios
         .get("/api/profile/logout-user")
         .then((res) => {
-          console.log(res);
+          if (res.data.success) {
+            toast(`Logged Out`, {
+              position: "bottom-left",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "dark",
+            });
+          } else {
+            toast.error(`Cannot Logout`, {
+              position: "bottom-left",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "dark",
+            });
+          }
         })
         .catch((err) => {
           console.error(err);
@@ -38,7 +61,29 @@ const loginSlice = createSlice({
       axios
         .get("/api/profile/delete-user")
         .then((res) => {
-          console.log(res);
+          if (res.data.success) {
+            toast(`Account Deleted`, {
+              position: "bottom-left",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "dark",
+            });
+          } else {
+            toast.error(`Cannot Delete`, {
+              position: "bottom-left",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "dark",
+            });
+          }
         })
         .catch((err) => {
           console.error(err);

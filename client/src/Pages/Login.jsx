@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import OAuth from "../Components/auth/OAuth";
 import { useDispatch } from "react-redux";
 import { setInfo } from "../store/features/loginSlice";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const [loadingStatus, setLoadingStatus] = useState(false);
@@ -41,6 +42,17 @@ const Login = () => {
         .then((res) => {
           if (!res.data.success) {
             setErrorStatus(res.data.message);
+
+            toast.error(res.data.message, {
+              position: "bottom-left",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "dark",
+            });
           } else {
             // making profile request
             axios
@@ -55,6 +67,29 @@ const Login = () => {
                     })
                   );
                   navigate("/");
+
+                  // pushing notification
+                  toast("Logged in", {
+                    position: "bottom-left",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                  });
+                } else {
+                  toast.error(res.data.message, {
+                    position: "bottom-left",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                  });
                 }
               })
               .catch((err) => {

@@ -14,6 +14,7 @@ import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate, Link } from "react-router-dom";
 import { logout } from "../store/features/loginSlice.js";
+import { toast } from "react-toastify";
 
 const Footer = () => {
   const loginState = useSelector((state) => state.login.credentials);
@@ -49,13 +50,48 @@ const Footer = () => {
       if (email == loginState.email) {
         axios
           .post("/api/user/subscribe-user", { email })
-          .then((res) => {})
+          .then((res) => {
+            if (res.data.success) {
+              toast.success("Subscribed to Karan Yadav", {
+                position: "bottom-left",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+              });
+            } else {
+              toast(res.data.message, {
+                position: "bottom-left",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+              });
+            }
+          })
           .catch((err) => console.log(err));
       } else {
         if (loginState.isLoggedIn) {
           dispatch(logout());
         }
         navigate("/sign-up");
+
+        toast.info(`Sign-up || Sign-in`, {
+          position: "bottom-left",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
       }
     }
   };

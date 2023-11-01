@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { setInfo } from "../../store/features/loginSlice.js";
+import { toast } from "react-toastify";
 
 const OAuth = () => {
   const dispatch = useDispatch();
@@ -37,6 +38,28 @@ const OAuth = () => {
       if (result.data.success) {
         dispatch(setInfo({ email: data.email, photoUrl: data.photoUrl }));
         navigate("/");
+
+        toast.success(`Logged In`, {
+          position: "bottom-left",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+      } else {
+        toast.error(`Cannot Login with Google`, {
+          position: "bottom-left",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
       }
     } catch (err) {
       console.error(err);

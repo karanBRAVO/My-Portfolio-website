@@ -1,4 +1,6 @@
 import authModel from "../models/auth.model.js";
+import mailer from "../utilities/mailer/mailer.utility.js";
+import accountDeleted_template from "../utilities/mailer/templates/userDeletedAccount_success.template.js";
 
 const userProfileController = async (req, res) => {
   try {
@@ -55,6 +57,13 @@ const userDelete = async (req, res) => {
 
     // deleting user
     await authModel.deleteOne({ _id: user_id });
+
+    // sending mail
+    mailer(
+      user.email,
+      "Account Successfully Deleted!",
+      accountDeleted_template()
+    );
 
     res.json({ success: true, message: "[+] User Deleted from DB." });
   } catch (err) {

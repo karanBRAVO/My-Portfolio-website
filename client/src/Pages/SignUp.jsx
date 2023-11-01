@@ -4,6 +4,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import OAuth from "../Components/auth/OAuth";
 import OtpVerfication from "../Components/auth/OtpVerfication";
+import { toast } from "react-toastify";
 
 const SignUp = () => {
   const [loadingStatus, setLoadingStatus] = useState(false);
@@ -39,8 +40,30 @@ const SignUp = () => {
         .then((res) => {
           if (!res.data.success) {
             setErrorStatus(res.data.message);
+
+            toast.error(res.data.message, {
+              position: "bottom-left",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "dark",
+            });
           } else {
             setOtpStatus(true);
+
+            toast.success("OTP Sent", {
+              position: "bottom-left",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "dark",
+            });
           }
         })
         .catch((err) => {
@@ -54,7 +77,10 @@ const SignUp = () => {
   return (
     <>
       {otpStatus ? (
-        <OtpVerfication email={inputValues.email} password={inputValues.password} />
+        <OtpVerfication
+          email={inputValues.email}
+          password={inputValues.password}
+        />
       ) : (
         <section
           className="w-full h-[100vh] flex items-center justify-center flex-col bg-slate-950"

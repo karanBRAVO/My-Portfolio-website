@@ -2,6 +2,7 @@ import Logo from "../../assets/myLogo.jpg";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const OtpVerfication = ({ email, password }) => {
   const [otp, setOtp] = useState("");
@@ -25,8 +26,40 @@ const OtpVerfication = ({ email, password }) => {
         .then((res) => {
           if (!res.data.success) {
             setErrorInfo(res.data.message);
+
+            toast.error(`${res.data.message}`, {
+              position: "bottom-left",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "dark",
+            });
           } else {
             navigate("/log-in");
+
+            toast.success(`Signed Up`, {
+              position: "bottom-left",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "dark",
+            });
+            toast.info(`Login to your account`, {
+              position: "bottom-left",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "dark",
+            });
           }
         })
         .catch((err) => {
