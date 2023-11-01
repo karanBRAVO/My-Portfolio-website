@@ -4,14 +4,14 @@ import { app } from "../../firebase.js";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { setToken, setInfo } from "../../store/features/loginSlice.js";
+import { useDispatch } from "react-redux";
+import { setInfo } from "../../store/features/loginSlice.js";
 
 const OAuth = () => {
-  const loginState = useSelector((state) => state.login.credentials);
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
+
   const [loadingStatus, setLoadingStatus] = useState(false);
 
   const handleClick = async (e) => {
@@ -35,15 +35,11 @@ const OAuth = () => {
       );
 
       if (result.data.success) {
-        const token = result.data.token;
-
-        dispatch(setToken({ token }));
         dispatch(setInfo({ email: data.email, photoUrl: data.photoUrl }));
-
         navigate("/");
       }
     } catch (err) {
-      console.log(err);
+      console.error(err);
       alert("[!] Unable to authenticate your email");
     }
 

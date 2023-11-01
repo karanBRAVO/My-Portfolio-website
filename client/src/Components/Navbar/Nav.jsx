@@ -27,6 +27,7 @@ const Nav = () => {
   const [navLinkVisibility, setNavLinkVisibility] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   const linkWrapper = Links.map((value, index) => {
     return (
@@ -70,14 +71,58 @@ const Nav = () => {
     nav.current.addEventListener("transitionend", handleResize);
   }, [navwidth]);
 
+  const toggleMenu = () => {
+    if (!isOpen) {
+      nav.current.classList.add("left-0");
+      nav.current.classList.remove("left-[-70px]");
+      incNavWidth();
+    } else {
+      nav.current.classList.remove("left-0");
+      nav.current.classList.add("left-[-70px]");
+      decNavWidth();
+    }
+    setIsOpen(!isOpen);
+  };
+
   return (
     <>
       <div
-        className="fixed left-0 top-0 h-full bg-[#1b1b1b] transition-all duration-[.5s] ease-linear overflow-x-auto overflow-y-hidden custom-scrollbar"
+        className="fixed left-[-70px] md:left-0 top-0 md:block h-full bg-[#1b1b1b] transition-all duration-[.5s] ease-linear overflow-x-auto overflow-y-hidden custom-scrollbar"
         style={{ width: navwidth }}
         ref={nav}
       >
-        <div className="flex items-center justify-center m-2 p-2">
+        {/* for small screen devices */}
+        <div className="fixed left-1 top-0 md:hidden">
+          <button
+            onClick={toggleMenu}
+            className="text-white focus:outline-none bg-[#1b1b1b] rounded-sm p-[1px]"
+          >
+            <svg
+              className="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              {isOpen ? (
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              ) : (
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M4 6h16M4 12h16m-7 6h7"
+                />
+              )}
+            </svg>
+          </button>
+        </div>
+        <div className="hidden md:flex items-center justify-center m-2 p-2">
           {!navLinkVisibility ? (
             <Hamburger clickEvent={incNavWidth} />
           ) : (
@@ -85,7 +130,7 @@ const Nav = () => {
           )}
         </div>
         {!navLinkVisibility ? (
-          <div className="h-full flex items-center justify-center">
+          <div className="h-full hidden md:flex items-center justify-center">
             <div className="m-1 p-1 rotate-[-90deg]">
               <span className="p-1 text-white text-4xl tracking-widest">
                 www.MyBlog.com
@@ -100,7 +145,7 @@ const Nav = () => {
           <div className="p-1 m-1">
             <ul className="p-1 m-1 flex items-start justify-center flex-col">
               {linkWrapper}
-              {!loginState.token ? (
+              {!loginState.isLoggedIn ? (
                 routesWrapper
               ) : (
                 <>

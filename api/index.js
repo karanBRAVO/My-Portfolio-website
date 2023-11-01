@@ -1,5 +1,6 @@
 import express from "express";
 import bodyParser from "body-parser";
+import cookieParser from "cookie-parser";
 import dotEnv from "dotenv";
 import dbConnect from "./connection/dbConn.js";
 import projectRouter from "./routes/project.route.js";
@@ -12,6 +13,7 @@ import userMessageToMeRouter from "./routes/userMessage_toMe.route.js";
 const APP = express();
 dotEnv.config();
 dbConnect();
+APP.use(cookieParser());
 const PORT = process.env.PORT || 6000;
 
 APP.use(bodyParser.json());

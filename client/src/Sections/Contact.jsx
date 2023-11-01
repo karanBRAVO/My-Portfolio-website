@@ -1,10 +1,11 @@
 import Title from "../Components/Title";
 import CONTACT_BANNER from "../assets/contact_me.jpg";
 import BG_IMG from "../assets/contactBG.jpg";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { logout } from "../store/features/loginSlice.js";
 
 const Contact = () => {
   const loginState = useSelector((state) => state.login.credentials);
@@ -19,6 +20,12 @@ const Contact = () => {
   });
   const [errorInfo, setErrorInfo] = useState(null);
 
+  useEffect(() => {
+    setSenderData((prev) => {
+      return { name: "", email: loginState.email, phone: "", msg: "" };
+    });
+  }, [loginState]);
+
   const handleSubmit = (e) => {
     setErrorInfo(null);
     e.preventDefault();
@@ -31,14 +38,8 @@ const Contact = () => {
     ) {
       if (senderData.email == loginState.email) {
         axios
-          .post("/api/user/send-message/to-me", senderData, {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer: ${loginState.token}`,
-            },
-          })
+          .post("/api/user/send-message/to-me", senderData)
           .then((res) => {
-            console.log(res);
             if (res.data.success) {
               setSenderData((prev) => {
                 return { ...prev, msg: "" };
@@ -47,7 +48,7 @@ const Contact = () => {
           })
           .catch((err) => console.log(err));
       } else {
-        if (loginState.token) {
+        if (loginState) {
           dispatch(logout());
         }
         navigate("/sign-up");
@@ -69,11 +70,15 @@ const Contact = () => {
     });
   };
 
+  const handleInputOnfocus = (e) => {
+    setErrorInfo(null);
+  };
+
   return (
     <>
       <div
         id="contactSection"
-        className={`ml-[75.5px] h-screen w-full md:w-auto bg-white`}
+        className={`md:ml-[75.5px] h-screen w-full md:w-auto bg-white`}
         style={{
           background: `url(${BG_IMG})`,
           backgroundRepeat: "no-repeat",
@@ -98,9 +103,7 @@ const Contact = () => {
                 placeholder="Name *"
                 value={senderData.name}
                 onChange={handleOnchange}
-                onFocus={() => {
-                  setErrorInfo(null);
-                }}
+                onFocus={handleInputOnfocus}
                 autoComplete="off"
               />
             </div>
@@ -112,9 +115,7 @@ const Contact = () => {
                 placeholder="Mobile Number *"
                 value={senderData.phone}
                 onChange={handleOnchange}
-                onFocus={() => {
-                  setErrorInfo(null);
-                }}
+                onFocus={handleInputOnfocus}
                 autoComplete="off"
               />
             </div>
@@ -126,9 +127,7 @@ const Contact = () => {
                 placeholder="Email *"
                 value={senderData.email}
                 onChange={handleOnchange}
-                onFocus={() => {
-                  setErrorInfo(null);
-                }}
+                onFocus={handleInputOnfocus}
                 autoComplete="off"
               />
             </div>
@@ -141,9 +140,7 @@ const Contact = () => {
                 className="bg-transparent border-2 border-solid border-[gold] rounded-2xl p-3 m-1 text-white outline-none font-text w-[290px] h-[190px] resize-none"
                 value={senderData.msg}
                 onChange={handleOnchange}
-                onFocus={() => {
-                  setErrorInfo(null);
-                }}
+                onFocus={handleInputOnfocus}
               ></textarea>
             </div>
             {errorInfo ? (

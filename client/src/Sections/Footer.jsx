@@ -48,22 +48,11 @@ const Footer = () => {
     if (email) {
       if (email == loginState.email) {
         axios
-          .post(
-            "/api/user/subscribe-user",
-            { email },
-            {
-              headers: {
-                Authorization: `Bearer: ${loginState.token}`,
-                "Content-Type": "application/json",
-              },
-            }
-          )
-          .then((res) => {
-            console.log(res);
-          })
+          .post("/api/user/subscribe-user", { email })
+          .then((res) => {})
           .catch((err) => console.log(err));
       } else {
-        if (loginState.token) {
+        if (loginState.isLoggedIn) {
           dispatch(logout());
         }
         navigate("/sign-up");
@@ -79,7 +68,7 @@ const Footer = () => {
     <>
       <div
         id="footerSection"
-        className="p-2 text-white h-screen w-full md:w-auto bg-slate-900 ml-[75.5px] flex flex-col items-center justify-center md:flex-row"
+        className="p-2 text-white h-screen w-full md:w-auto bg-slate-900 md:ml-[75.5px] flex flex-col items-center justify-center md:flex-row"
       >
         <div className="md:w-1/2 h-[100vh] flex items-center justify-center flex-col mx-1">
           <img src={LOGO} alt="myLogo" className="w-[100px] md:w-[200px]" />

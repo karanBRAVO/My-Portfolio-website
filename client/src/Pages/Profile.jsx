@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Skeleton from "../Components/Profile/Skeleton";
 import { useSelector, useDispatch } from "react-redux";
-import { logout } from "../store/features/loginSlice";
+import { deleteMe, logout } from "../store/features/loginSlice";
 
 const Profile = () => {
   const loginState = useSelector((state) => state.login.credentials);
@@ -16,7 +16,7 @@ const Profile = () => {
   useEffect(() => {
     setLoading(true);
 
-    if (loginState.email && loginState.photoUrl) {
+    if (loginState.isLoggedIn) {
       setData({
         photoUrl: loginState.photoUrl,
         email: loginState.email,
@@ -29,9 +29,16 @@ const Profile = () => {
     dispatch(logout());
   };
 
+  const handleDeleteAccount = () => {
+    const checkSurity = confirm("Are you sure ?");
+    if (checkSurity) {
+      dispatch(deleteMe());
+    }
+  };
+
   return (
     <>
-      <div className="fixed ml-[110px] sm:ml-[120px] md:ml-[130px] z-10">
+      <div className="fixed top-1 right-2 md:right-3 md:top-3 z-10">
         <div className="bg-white p-5 rounded-lg shadow-md shadow-slate-400 flex items-center justify-center flex-col">
           {loading ? (
             <>
@@ -53,9 +60,15 @@ const Profile = () => {
           <div className="mt-4 text-center">
             <button
               onClick={handleLogout}
-              className="bg-red-500 text-white px-4 py-2 rounded-full font-semibold hover:bg-red-600"
+              className="bg-red-500 text-white px-4 py-2 rounded-full font-semibold hover:bg-red-600 m-1"
             >
               Logout
+            </button>
+            <button
+              onClick={handleDeleteAccount}
+              className="bg-red-500 text-white px-4 py-2 rounded-full font-semibold hover:bg-red-600 m-1"
+            >
+              Delete Account
             </button>
           </div>
         </div>

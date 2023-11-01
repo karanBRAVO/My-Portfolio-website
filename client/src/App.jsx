@@ -17,7 +17,7 @@ const App = () => {
         <Routes>
           <Route exact path="/" element={<Home />} />
           <Route exact path="/my-project-show" element={<ShowProjects />} />
-          {!loginState.token ? (
+          {!loginState.isLoggedIn ? (
             <>
               <Route exact path="/sign-up" element={<SignUp />} />
               <Route exact path="/log-in" element={<Login />} />

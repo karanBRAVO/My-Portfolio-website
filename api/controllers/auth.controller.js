@@ -153,7 +153,10 @@ const userLogin = async (req, res) => {
     // setting token
     const token = genToken(verifyEmail._id, 60 * 60 * 24);
 
-    res.json({ success: true, message: "[+] User logged in", token });
+    // setting cookie
+    res.cookie("token", token, { httpOnly: true });
+
+    res.json({ success: true, message: "[+] User logged in" });
   } catch (err) {
     res.json({ success: false, message: err.message });
   }
@@ -173,9 +176,12 @@ const signIn_google = async (req, res) => {
 
     // log in
     if (hasAccount) {
-      // setting token
+      // generating token
       const token = genToken(hasAccount._id, 60 * 60 * 24);
-      res.json({ success: true, message: "[+] User logged in", token });
+
+      res.cookie("token", token, { httpOnly: true });
+
+      res.json({ success: true, message: "[+] User logged in" });
     } else {
       const password = bcrypt.hashSync(
         Math.random().toString(36).slice(-8) +
@@ -197,7 +203,10 @@ const signIn_google = async (req, res) => {
       const hasAccount = await authModel.findOne({ email });
       const token = genToken(hasAccount._id, 60 * 60 * 24);
 
-      res.json({ success: true, message: "[+] User Added to database", token });
+      // setting the cookie token
+      res.cookie("token", token, { httpOnly: true });
+
+      res.json({ success: true, message: "[+] User Added to database" });
     }
   } catch (error) {
     res.json({ success: false, message: error.message });

@@ -6,7 +6,7 @@ const About = () => {
   return (
     <>
       <div
-        className={`ml-[75.5px] h-screen w-full md:w-auto bg-white`}
+        className={`md:ml-[75.5px] h-screen w-full md:w-auto bg-white`}
         id="aboutSection"
       >
         <Title
