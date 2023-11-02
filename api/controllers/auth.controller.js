@@ -45,6 +45,12 @@ const verifyUser = async (req, res) => {
       throw error;
     }
 
+    // updating verfiying status
+    await otpModel.updateOne(
+      { email: user.email },
+      { $set: { verified: true } }
+    );
+
     // adding user to database
     const addUserToDb = new authModel({
       email: user.email,
