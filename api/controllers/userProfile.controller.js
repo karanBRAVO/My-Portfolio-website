@@ -7,6 +7,7 @@ import otpModel from "../models/otp.model.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { IsValidEmail } from "../utilities/validators/email.validator.js";
+import resetPasswordSuccess_template from "../utilities/mailer/templates/passwordReset_success.template.js";
 
 const userProfileController = async (req, res) => {
   try {
@@ -93,8 +94,8 @@ const resetPassword = async (req, res) => {
       throw error;
     }
 
-    const { new_password } = req.body;
-    if (!new_password) {
+    const { password } = req.body;
+    if (!password) {
       const error = new Error("[-] Invalid credentials.");
       throw error;
     }
@@ -113,7 +114,7 @@ const resetPassword = async (req, res) => {
     }
 
     // generating hashed password
-    const new_hashedPassword = bcrypt.hashSync(new_password, 10);
+    const new_hashedPassword = bcrypt.hashSync(password, 10);
 
     // updating password
     await authModel.updateOne(
@@ -123,6 +124,13 @@ const resetPassword = async (req, res) => {
 
     // clearing the cookie
     res.clearCookie("passwordResetToken");
+
+    // sending mail
+    mailer(
+      user.email,
+      "Successfully Updated Password MyBlog-Karan Yadav",
+      resetPasswordSuccess_template()
+    );
 
     res.json({ success: true, message: "[+] Password reset successfully." });
   } catch (err) {

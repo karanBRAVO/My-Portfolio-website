@@ -6,6 +6,7 @@ import OAuth from "../Components/auth/OAuth";
 import { useDispatch } from "react-redux";
 import { setInfo } from "../store/features/loginSlice";
 import { toast } from "react-toastify";
+import OtpVerification_forgetPassword from "../Components/Profile/otpVerification_forgetPassword";
 
 const Login = () => {
   const [loadingStatus, setLoadingStatus] = useState(false);
@@ -14,6 +15,7 @@ const Login = () => {
     email: "",
     password: "",
   });
+  const [verifyOtp, setVerifyOtp] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -105,69 +107,148 @@ const Login = () => {
     setLoadingStatus(false);
   };
 
+  const handleForgetPasswordClick = (e) => {
+    e.preventDefault();
+    setLoadingStatus(true);
+    setVerifyOtp(false);
+    setErrorStatus(null);
+
+    if (inputValues.email) {
+      axios
+        .post("/api/profile/forget-password/send-otp", {
+          email: inputValues.email,
+        })
+        .then((response) => {
+          if (response.data.success) {
+            toast.success(response.data.message, {
+              position: "bottom-left",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "dark",
+            });
+            setVerifyOtp(true);
+          } else {
+            toast.error(response.data.message, {
+              position: "bottom-left",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "dark",
+            });
+          }
+        })
+        .catch((err) => {
+          toast.error(`Error while submitting data`, {
+            position: "bottom-left",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+          });
+        });
+    } else {
+      setErrorStatus("* Required field");
+
+      toast.error(`Required Field`, {
+        position: "bottom-left",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+    }
+
+    setLoadingStatus(false);
+  };
+
   return (
     <>
-      <section
-        className="w-full h-[100vh] flex items-center justify-center flex-col bg-slate-950"
-        id="authSection"
-      >
-        <div className="p-3 border-2 border-solid border-sky-400 rounded-lg shadow-md shadow-sky-400 flex items-center justify-center flex-col">
-          <img
-            src={Logo}
-            alt="photo"
-            className="rounded-full w-12 h-12 object-cover border-2 border-solid border-white shadow-md shadow-white my-3"
-          />
-          <form
-            onSubmit={handleSubmit}
-            className="gap-3 flex flex-col items-center justify-center p-2"
-          >
-            <input
-              className="px-2 py-1 rounded-md border-[1px] border-solid border-white text-white bg-transparent text-base font-semibold outline-none my-1"
-              type="email"
-              name="email"
-              id="useremail"
-              placeholder="📧 Email *"
-              autoComplete="off"
-              value={inputValues.email}
-              onChange={handleInputChange}
+      {verifyOtp ? (
+        <OtpVerification_forgetPassword email={inputValues.email} />
+      ) : (
+        <section
+          className="w-full h-[100vh] flex items-center justify-center flex-col bg-slate-950"
+          id="authSection"
+        >
+          <div className="p-3 border-2 border-solid border-sky-400 rounded-lg shadow-md shadow-sky-400 flex items-center justify-center flex-col">
+            <img
+              src={Logo}
+              alt="photo"
+              className="rounded-full w-12 h-12 object-cover border-2 border-solid border-white shadow-md shadow-white my-3"
             />
-            <input
-              className="px-2 py-1 rounded-md border-[1px] border-solid border-white text-white bg-transparent text-base font-semibold outline-none my-1"
-              type="password"
-              name="password"
-              id="userpassword"
-              placeholder="🔑 Password *"
-              autoComplete="off"
-              value={inputValues.password}
-              onChange={handleInputChange}
-            />
-            <p className="text-base font-text font-normal text-red-500 my-1">
-              {errorStatus ? <span>{errorStatus}</span> : <span></span>}
-            </p>
-            <button
-              type="submit"
-              disabled={loadingStatus}
-              className="bg-blue-500 hover:bg-blue-700 font-bold py-2 px-4 rounded-full hover:opacity-95 text-white font-myBtn text-base capitalize disabled:bg-blue-500 disabled:cursor-not-allowed my-1"
+            <form
+              onSubmit={handleSubmit}
+              className="gap-3 flex flex-col items-center justify-center p-2"
             >
-              {loadingStatus ? <>Logging up ...</> : <>Log in</>}
-            </button>
-            <OAuth />
-          </form>
-          <div className="mt-3">
-            <p className="text-white text-sm font-text">
-              Don{"'"}t have account ?
-              <span
-                onClick={() => {
-                  navigate("/sign-up");
-                }}
-                className="text-base font-semibold text-blue-700 mx-1 cursor-pointer hover:underline"
+              <input
+                className="px-2 py-1 rounded-md border-[1px] border-solid border-white text-white bg-transparent text-base font-semibold outline-none my-1"
+                type="email"
+                name="email"
+                id="useremail"
+                placeholder="📧 Email *"
+                autoComplete="off"
+                value={inputValues.email}
+                onChange={handleInputChange}
+              />
+              <input
+                className="px-2 py-1 rounded-md border-[1px] border-solid border-white text-white bg-transparent text-base font-semibold outline-none my-1"
+                type="password"
+                name="password"
+                id="userpassword"
+                placeholder="🔑 Password *"
+                autoComplete="off"
+                value={inputValues.password}
+                onChange={handleInputChange}
+              />
+              <div className="w-full text-right">
+                <span
+                  className="text-blue-500 text-sm font-text font-normal cursor-pointer hover:underline"
+                  onClick={handleForgetPasswordClick}
+                >
+                  Forget Password
+                </span>
+              </div>
+              <p className="text-base font-text font-normal text-red-500 my-1">
+                {errorStatus ? <span>{errorStatus}</span> : <span></span>}
+              </p>
+              <button
+                type="submit"
+                disabled={loadingStatus}
+                className="bg-blue-500 hover:bg-blue-700 font-bold py-2 px-4 rounded-full hover:opacity-95 text-white font-myBtn text-base capitalize disabled:bg-blue-500 disabled:cursor-not-allowed my-1"
               >
-                Create-now
-              </span>
-            </p>
+                {loadingStatus ? <>Logging up ...</> : <>Log in</>}
+              </button>
+              <OAuth />
+            </form>
+            <div className="mt-3">
+              <p className="text-white text-sm font-text">
+                Don{"'"}t have account ?
+                <span
+                  onClick={() => {
+                    navigate("/sign-up");
+                  }}
+                  className="text-base font-semibold text-blue-700 mx-1 cursor-pointer hover:underline"
+                >
+                  Create-now
+                </span>
+              </p>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
     </>
   );
 };
