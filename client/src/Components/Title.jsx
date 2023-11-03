@@ -5,7 +5,7 @@ const Title = ({ imgSrc, quote }) => {
         <img
           src={imgSrc}
           alt="Photo"
-          className="p-1 w-[290px] h-auto rounded-full border-solid border-2 m-1 bg-red-50"
+          className="p-1 w-[290px] h-auto rounded-full border-solid border-2 m-1 mt-3 sm:mt-4 md:mt-5 bg-red-50"
         />
         <span className="text-sm text-slate-500 font-[serif]">{quote}</span>
       </div>

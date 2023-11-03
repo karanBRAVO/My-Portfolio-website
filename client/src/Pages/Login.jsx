@@ -191,7 +191,7 @@ const Login = () => {
             />
             <form
               onSubmit={handleSubmit}
-              className="gap-3 flex flex-col items-center justify-center p-2"
+              className="gap-1 sm:gap-2 md:gap-3 flex flex-col items-center justify-center p-2"
             >
               <input
                 className="px-2 py-1 rounded-md border-[1px] border-solid border-white text-white bg-transparent text-base font-semibold outline-none my-1"
@@ -215,7 +215,7 @@ const Login = () => {
               />
               <div className="w-full text-right">
                 <span
-                  className="text-blue-500 text-sm font-text font-normal cursor-pointer hover:underline"
+                  className="text-blue-500 text-sm font-text font-normal cursor-pointer hover:underline px-1 mx-[1px]"
                   onClick={handleForgetPasswordClick}
                 >
                   Forget Password

@@ -112,7 +112,7 @@ const Contact = () => {
     <>
       <div
         id="contactSection"
-        className={`md:ml-[75.5px] h-screen w-full md:w-auto bg-white`}
+        className={`md:ml-[75.5px] sm:h-screen w-full md:w-auto bg-white`}
         style={{
           background: `url(${BG_IMG})`,
           backgroundRepeat: "no-repeat",

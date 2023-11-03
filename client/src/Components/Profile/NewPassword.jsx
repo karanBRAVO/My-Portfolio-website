@@ -127,7 +127,7 @@ const NewPassword = ({ email }) => {
               className="px-2 py-1 rounded-md border-[1px] border-solid border-white text-white bg-transparent text-base font-semibold outline-none"
               type="password"
               name="confirmPassword"
-              id="password"
+              id="confirmPassword"
               placeholder="Confirm Password *"
               autoComplete="off"
               value={newPassword.confirmPassword}

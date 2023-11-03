@@ -30,9 +30,7 @@ const mailer = (to, subject, template, attachments = []) => {
         throw Error(err);
       }
     });
-  } catch (err) {
-    console.log(err);
-  }
+  } catch (err) {}
 };
 
 export default mailer;

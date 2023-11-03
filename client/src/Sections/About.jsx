@@ -6,7 +6,7 @@ const About = () => {
   return (
     <>
       <div
-        className={`md:ml-[75.5px] h-screen w-full md:w-auto bg-white`}
+        className={`md:ml-[75.5px] sm:h-screen w-full md:w-auto bg-white`}
         id="aboutSection"
       >
         <Title
@@ -35,7 +35,7 @@ const About = () => {
               velit laborum ab sint quis soluta reprehenderit nesciunt suscipit
               fugit minus unde deserunt hic cumque corrupti quae, doloremque
               totam iusto. Mollitia aliquid placeat dicta quo eos debitis vero
-              voluptates aperiam!`.substring(0, 300)}
+              voluptates aperiam!`}
             </span>
           </div>
         </div>

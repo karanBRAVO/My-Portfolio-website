@@ -104,9 +104,9 @@ const Footer = () => {
     <>
       <div
         id="footerSection"
-        className="p-2 text-white h-screen w-full md:w-auto bg-slate-900 md:ml-[75.5px] flex flex-col items-center justify-center md:flex-row"
+        className="p-2 text-white sm:h-screen w-full md:w-auto bg-slate-900 md:ml-[75.5px] flex flex-col items-center justify-center md:flex-row"
       >
-        <div className="md:w-1/2 h-[100vh] flex items-center justify-center flex-col mx-1">
+        <div className="md:w-1/2 sm:h-[100vh] flex items-center justify-center flex-col mx-1">
           <img src={LOGO} alt="myLogo" className="w-[100px] md:w-[200px]" />
           <div className="m-1 p-1">
             <p className="text-center">
@@ -123,7 +123,7 @@ const Footer = () => {
             </p>
           </div>
         </div>
-        <div className="md:w-1/2 h-[100vh] flex items-center justify-center flex-col m-2 p-2">
+        <div className="md:w-1/2 sm:h-[100vh] flex items-center justify-center flex-col m-2 p-2">
           <div className="flex flex-row items-center justify-center m-2 p-2">
             {socialMediaLinks.map((value, index) => {
               return (
