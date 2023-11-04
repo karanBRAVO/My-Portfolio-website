@@ -5,11 +5,13 @@ import authenticate_userPasswordReset from "../middlewares/authenticateUser_rese
 
 const router = express.Router();
 
+router.get('/profile/user/check-jwt', authenticate, userProfile.check_jwt);
 router.get(
   "/profile/get-user",
   authenticate,
   userProfile.userProfileController
 );
+router.post("/profile/upload-image", authenticate, userProfile.userUploadImage);
 router.get("/profile/logout-user", authenticate, userProfile.userLogout);
 router.get("/profile/delete-user", authenticate, userProfile.userDelete);
 router.post(

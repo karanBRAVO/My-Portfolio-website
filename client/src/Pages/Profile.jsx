@@ -1,7 +1,16 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Skeleton from "../Components/Profile/Skeleton";
 import { useSelector, useDispatch } from "react-redux";
 import { deleteMe, logout } from "../store/features/loginSlice";
+import {
+  getDownloadURL,
+  getStorage,
+  ref,
+  uploadBytesResumable,
+} from "firebase/storage";
+import { app } from "../firebase";
+import { toast } from "react-toastify";
+import axios from "axios";
 
 const Profile = () => {
   const loginState = useSelector((state) => state.login.credentials);
@@ -12,6 +21,9 @@ const Profile = () => {
     photoUrl: "",
     email: "",
   });
+  const [userProfilePhotoUrl, setUserProfilePhotoUrl] = useState(undefined);
+
+  const fileRef = useRef();
 
   useEffect(() => {
     setLoading(true);
@@ -36,6 +48,100 @@ const Profile = () => {
     }
   };
 
+  useEffect(() => {
+    if (userProfilePhotoUrl) {
+      const storage = getStorage(app);
+      const fileName = new Date().getTime() + "-" + userProfilePhotoUrl.name;
+      const storageRef = ref(storage, fileName);
+      const uploadTask = uploadBytesResumable(storageRef, userProfilePhotoUrl);
+
+      uploadTask.on(
+        "state_changed",
+        (snap_shot) => {
+          const progress =
+            (snap_shot.bytesTransferred / snap_shot.totalBytes) * 100;
+        },
+        (err) => {
+          toast.error(err, {
+            position: "bottom-left",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+          });
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref)
+            .then((downloadUrl) => {
+              setData({
+                ...data,
+                photoUrl: downloadUrl,
+              });
+              axios
+                .post("/api/profile/upload-image", { newPhotoUrl: downloadUrl })
+                .then((res) => {
+                  if (res.data.success) {
+                    toast.success(res.data.message, {
+                      position: "bottom-left",
+                      autoClose: 5000,
+                      hideProgressBar: false,
+                      closeOnClick: true,
+                      pauseOnHover: true,
+                      draggable: true,
+                      progress: undefined,
+                      theme: "dark",
+                    });
+                  } else {
+                    toast.error(res.data.message, {
+                      position: "bottom-left",
+                      autoClose: 5000,
+                      hideProgressBar: false,
+                      closeOnClick: true,
+                      pauseOnHover: true,
+                      draggable: true,
+                      progress: undefined,
+                      theme: "dark",
+                    });
+                  }
+                  setUserProfilePhotoUrl(undefined);
+                })
+                .catch((err) => {
+                  toast.error(err, {
+                    position: "bottom-left",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                  });
+                });
+            })
+            .catch((err) => {
+              toast.error(err, {
+                position: "bottom-left",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+              });
+            });
+        }
+      );
+    }
+  }, [userProfilePhotoUrl]);
+
+  const handleFileChange = (e) => {
+    setUserProfilePhotoUrl(e.target.files[0]);
+  };
+
   return (
     <>
       <div className="fixed top-1 right-2 md:right-3 md:top-3 z-10">
@@ -46,10 +152,22 @@ const Profile = () => {
             </>
           ) : (
             <>
+              <input
+                type="file"
+                name="userProfilePhotoUrl"
+                ref={fileRef}
+                id="imageUrl"
+                hidden={true}
+                accept="image/*"
+                onChange={handleFileChange}
+              />
               <img
                 src={data.photoUrl}
                 alt="Profile"
-                className="mx-auto w-32 h-32 rounded-full mb-4"
+                className="mx-auto w-32 h-32 rounded-full mb-4 cursor-pointer border-gray-600 border-2 border-solid"
+                onClick={() => {
+                  fileRef.current.click();
+                }}
               />
               <div className="mt-4 p-1">
                 <h2 className="text-lg font-bold mb-2">Contact</h2>
