@@ -19,6 +19,9 @@ const loginSlice = createSlice({
       state.credentials.photoUrl = action.payload.photoUrl;
       state.credentials.isLoggedIn = true;
     },
+    updateImage: (state, action) => {
+      state.credentials.photoUrl = action.payload.photoUrl;
+    },
     logout: (state) => {
       state.credentials.email = "";
       state.credentials.photoUrl = "";
@@ -92,6 +95,6 @@ const loginSlice = createSlice({
   },
 });
 
-export const { setInfo, logout, deleteMe } = loginSlice.actions;
+export const { setInfo, updateImage, logout, deleteMe } = loginSlice.actions;
 
 export default loginSlice.reducer;

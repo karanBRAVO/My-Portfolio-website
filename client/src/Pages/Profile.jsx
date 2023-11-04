@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import Skeleton from "../Components/Profile/Skeleton";
 import { useSelector, useDispatch } from "react-redux";
-import { deleteMe, logout } from "../store/features/loginSlice";
+import { deleteMe, logout, updateImage } from "../store/features/loginSlice";
 import {
   getDownloadURL,
   getStorage,
@@ -94,6 +94,7 @@ const Profile = () => {
                       progress: undefined,
                       theme: "dark",
                     });
+                    dispatch(updateImage({ photoUrl: downloadUrl }));
                   } else {
                     toast.error(res.data.message, {
                       position: "bottom-left",
