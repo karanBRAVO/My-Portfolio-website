@@ -1,8 +1,14 @@
 import { useEffect, useRef, useState } from "react";
 import Skeleton from "../Components/Profile/Skeleton";
 import { useSelector, useDispatch } from "react-redux";
-import { deleteMe, logout, updateImage } from "../store/features/loginSlice";
 import {
+  deleteMe,
+  logout,
+  setInfo,
+  updateImage,
+} from "../store/features/loginSlice";
+import {
+  deleteObject,
   getDownloadURL,
   getStorage,
   ref,
@@ -11,10 +17,12 @@ import {
 import { app } from "../firebase";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
   const loginState = useSelector((state) => state.login.credentials);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState({
@@ -96,16 +104,33 @@ const Profile = () => {
                     });
                     dispatch(updateImage({ photoUrl: downloadUrl }));
                   } else {
-                    toast.error(res.data.message, {
-                      position: "bottom-left",
-                      autoClose: 5000,
-                      hideProgressBar: false,
-                      closeOnClick: true,
-                      pauseOnHover: true,
-                      draggable: true,
-                      progress: undefined,
-                      theme: "dark",
-                    });
+                    // deleting from firebase
+                    const imageRef = ref(storage, fileName);
+                    deleteObject(imageRef)
+                      .then(() => {
+                        console.log("deleted from firebase");
+                      })
+                      .catch(() => {
+                        console.error("Cannot delete from firebase");
+                      });
+
+                    if (res.data.jwtError) {
+                      dispatch(
+                        setInfo({ email: "", photoUrl: "", isLoggedIn: false })
+                      );
+                      navigate("/sign-up");
+                    } else {
+                      toast.error(res.data.message, {
+                        position: "bottom-left",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "dark",
+                      });
+                    }
                   }
                   setUserProfilePhotoUrl(undefined);
                 })

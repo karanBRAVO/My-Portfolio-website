@@ -16,9 +16,9 @@ const send_successful_signUp_mail = (email) => {
   );
 };
 
-const genToken = (ID, expiry) => {
+const genToken = (ID, expiry = 60 * 60 * 24) => {
   const token = jwt.sign({ user_id: ID }, process.env.SECRET_KEY, {
-    expiresIn: expiry,
+    expiresIn: 10,
   });
   return token;
 };

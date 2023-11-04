@@ -5,7 +5,6 @@ import authenticate_userPasswordReset from "../middlewares/authenticateUser_rese
 
 const router = express.Router();
 
-router.get('/profile/user/check-jwt', authenticate, userProfile.check_jwt);
 router.get(
   "/profile/get-user",
   authenticate,

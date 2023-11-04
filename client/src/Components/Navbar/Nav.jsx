@@ -7,8 +7,6 @@ import { Link } from "react-router-dom";
 import Profile from "../../Pages/Profile";
 import Skeleton from "./Skeleton";
 import { useSelector, useDispatch } from "react-redux";
-import axios from "axios";
-import { logout } from "../../store/features/loginSlice";
 
 const Links = [
   { name: "Home", linkto: "#mastheadSection" },
@@ -50,21 +48,6 @@ const Nav = () => {
       </Link>
     );
   });
-
-  // logging out if jwt is expired
-  useEffect(() => {
-    // checking jwt
-    axios
-      .get("/api/profile/user/check-jwt")
-      .then((res) => {
-        if (!res.data.success && loginState.isLoggedIn) {
-          dispatch(logout());
-        }
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  }, [showProfile]);
 
   const [navwidth, setNavwidth] = useState(75);
   const incNavWidth = () => {

@@ -36,7 +36,13 @@ const OAuth = () => {
       );
 
       if (result.data.success) {
-        dispatch(setInfo({ email: data.email, photoUrl: data.photoUrl }));
+        dispatch(
+          setInfo({
+            email: data.email,
+            photoUrl: data.photoUrl,
+            isLoggedIn: true,
+          })
+        );
         navigate("/");
 
         toast.success(`Logged In`, {

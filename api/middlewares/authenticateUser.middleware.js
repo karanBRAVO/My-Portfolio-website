@@ -7,7 +7,7 @@ const authenticate = (req, res, next) => {
     req.user_id = decodedToken.user_id;
     next();
   } catch (err) {
-    res.json({ success: false, message: err.message });
+    res.json({ success: false, jwtError: true, message: err.message });
   }
 };
 

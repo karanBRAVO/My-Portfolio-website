@@ -13,7 +13,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate, Link } from "react-router-dom";
-import { logout } from "../store/features/loginSlice.js";
+import { logout, setInfo } from "../store/features/loginSlice.js";
 import { toast } from "react-toastify";
 
 const Footer = () => {
@@ -63,7 +63,14 @@ const Footer = () => {
                 theme: "dark",
               });
             } else {
-              toast(res.data.message, {
+              if (res.data.jwtError) {
+                dispatch(
+                  setInfo({ email: "", photoUrl: "", isLoggedIn: false })
+                );
+                navigate("/sign-up");
+              }
+
+              toast(`Cannot Subscribe`, {
                 position: "bottom-left",
                 autoClose: 5000,
                 hideProgressBar: false,

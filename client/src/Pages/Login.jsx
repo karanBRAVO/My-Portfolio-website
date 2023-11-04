@@ -66,6 +66,7 @@ const Login = () => {
                     setInfo({
                       email: res.data.data.email,
                       photoUrl: res.data.data.photoUrl,
+                      isLoggedIn: true,
                     })
                   );
                   navigate("/");

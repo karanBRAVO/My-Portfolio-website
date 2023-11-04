@@ -9,28 +9,6 @@ import jwt from "jsonwebtoken";
 import { IsValidEmail } from "../utilities/validators/email.validator.js";
 import resetPasswordSuccess_template from "../utilities/mailer/templates/passwordReset_success.template.js";
 
-const check_jwt = async (req, res) => {
-  try {
-    // getting user id decoded from jwt token
-    const user_id = req.user_id;
-    if (!user_id) {
-      const error = new Error("[-] no access");
-      throw error;
-    }
-
-    // finding user in database
-    const user = await authModel.findOne({ _id: user_id });
-    if (!user) {
-      const error = new Error("[-] no user found");
-      throw error;
-    }
-
-    res.json({ success: true, message: "[+] JWT is valid." });
-  } catch (err) {
-    res.json({ success: false, message: err.message });
-  }
-};
-
 const userProfileController = async (req, res) => {
   try {
     // getting user id decoded from jwt token
@@ -322,7 +300,6 @@ const forgetPassword_sendOtp = async (req, res) => {
 };
 
 export default {
-  check_jwt,
   userProfileController,
   userUploadImage,
   userLogout,

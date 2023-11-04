@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { logout } from "../store/features/loginSlice.js";
+import { logout, setInfo } from "../store/features/loginSlice.js";
 import { toast } from "react-toastify";
 
 const Contact = () => {
@@ -57,6 +57,13 @@ const Contact = () => {
                 theme: "dark",
               });
             } else {
+              if (res.data.jwtError) {
+                dispatch(
+                  setInfo({ email: "", photoUrl: "", isLoggedIn: false })
+                );
+                navigate('/sign-up');
+              }
+
               toast.error(`Cannot send message`, {
                 position: "bottom-left",
                 autoClose: 5000,

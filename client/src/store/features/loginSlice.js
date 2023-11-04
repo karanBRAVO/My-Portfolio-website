@@ -17,7 +17,7 @@ const loginSlice = createSlice({
     setInfo: (state, action) => {
       state.credentials.email = action.payload.email;
       state.credentials.photoUrl = action.payload.photoUrl;
-      state.credentials.isLoggedIn = true;
+      state.credentials.isLoggedIn = action.payload.isLoggedIn;
     },
     updateImage: (state, action) => {
       state.credentials.photoUrl = action.payload.photoUrl;
@@ -41,16 +41,29 @@ const loginSlice = createSlice({
               theme: "dark",
             });
           } else {
-            toast.error(`Cannot Logout`, {
-              position: "bottom-left",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: "dark",
-            });
+            if (res.data.jwtError) {
+              toast(`Logged Out`, {
+                position: "bottom-left",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+              });
+            } else {
+              toast.error(`Cannot Logout`, {
+                position: "bottom-left",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+              });
+            }
           }
         })
         .catch((err) => {
@@ -76,16 +89,29 @@ const loginSlice = createSlice({
               theme: "dark",
             });
           } else {
-            toast.error(`Cannot Delete`, {
-              position: "bottom-left",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: "dark",
-            });
+            if (res.data.jwtError) {
+              toast(`Deleted`, {
+                position: "bottom-left",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+              });
+            } else {
+              toast.error(`Cannot Delete`, {
+                position: "bottom-left",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+              });
+            }
           }
         })
         .catch((err) => {
