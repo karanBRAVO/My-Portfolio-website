@@ -9,6 +9,10 @@ import Terms_of_Services from "./Pages/Terms_of_Services";
 import Privacy_Policy from "./Pages/Privacy_Policy";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import ShowProjects_Admin from "./Pages/adminDashboard/ShowProjects_Admin";
+import AddProjects_Admin from "./Pages/adminDashboard/AddProjects_Admin";
+import PrivateRoute from "./Pages/adminDashboard/PrivateRoute";
+import Admin from "./Pages/adminDashboard/Admin";
 
 const App = () => {
   const loginState = useSelector((state) => state.login.credentials);
@@ -33,6 +37,19 @@ const App = () => {
             path="/my/terms-of-services"
             element={<Terms_of_Services />}
           />
+          <Route element={<PrivateRoute />}>
+            <Route exact path="/admin-dashboard" element={<Admin />} />
+            <Route
+              exact
+              path="/my/my-project-show"
+              element={<ShowProjects_Admin />}
+            />
+            <Route
+              exact
+              path="/my/add-project-new"
+              element={<AddProjects_Admin />}
+            />
+          </Route>
           <Route exact path="*" element={<NoPage />} />
         </Routes>
       </BrowserRouter>
