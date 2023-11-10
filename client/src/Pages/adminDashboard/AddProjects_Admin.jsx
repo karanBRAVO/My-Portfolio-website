@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import ProjectCard from "../../Components/Projects/ProjectCard";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 const AddProjects_Admin = () => {
   const [formData, setFormData] = useState({
@@ -25,7 +27,37 @@ const AddProjects_Admin = () => {
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    console.log(formData);
+
+    axios
+      .post("/api/add-project-info", formData)
+      .then((response) => {
+        if (response.data.success) {
+          toast.success(response.data.message, {
+            position: "bottom-left",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+          });
+        } else {
+          toast.error(response.data.message, {
+            position: "bottom-left",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+          });
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
 
   return (
@@ -58,6 +90,7 @@ const AddProjects_Admin = () => {
                 placeholder="Project Name"
                 name="projectName"
                 required
+                autoComplete="off"
                 className="outline-2 outline-blue-700 px-3 py-4 w-full rounded-lg shadow-lg text-lg text-gray-900 m-2"
                 onChange={(e) => {
                   setFormData({
@@ -128,7 +161,7 @@ const AddProjects_Admin = () => {
                     >
                       <input
                         type="text"
-                        className="outline-2 outline-blue-700 px-3 py-4 w-full rounded-lg shadow-lg text-lg text-gray-900 m-2"
+                        className="border p-2 w-full rounded-md shadow-md text-lg text-gray-900 m-2 focus:outline-none focus:ring focus:border-blue-300"
                         onChange={(e) => {
                           setFormData((prev) => {
                             return {
@@ -231,7 +264,7 @@ const AddProjects_Admin = () => {
                     >
                       <input
                         type="text"
-                        className="outline-2 outline-blue-700 px-3 py-4 w-full rounded-lg shadow-lg text-lg text-gray-900 m-2"
+                        className="border p-2 w-full rounded-md shadow-md text-lg text-gray-900 m-2 focus:outline-none focus:ring focus:border-blue-300"
                         onChange={(e) => {
                           setFormData((prev) => {
                             return {
@@ -251,7 +284,7 @@ const AddProjects_Admin = () => {
                       />
                       <input
                         type="text"
-                        className="outline-2 outline-blue-700 px-3 py-4 w-full rounded-lg shadow-lg text-lg text-gray-900 m-2"
+                        className="border p-2 w-full rounded-md shadow-md text-lg text-gray-900 m-2 focus:outline-none focus:ring focus:border-blue-300"
                         onChange={(e) => {
                           setFormData((prev) => {
                             return {
@@ -392,14 +425,14 @@ const AddProjects_Admin = () => {
                             };
                           });
                         }}
-                        className="outline-2 w-full rounded-lg shadow-lg outline-blue-700 px-3 py-4 text-gray-900 text-lg mx-2"
+                        className="border p-2 w-full rounded-md shadow-md text-lg text-gray-900 m-2 focus:outline-none focus:ring focus:border-blue-300"
                       >
                         <option value="img">Image</option>
                         <option value="iframe">Video</option>
                       </select>
                       <input
                         type="text"
-                        className="outline-2 outline-blue-700 px-3 py-4 w-full rounded-lg shadow-lg text-lg text-gray-900 m-2"
+                        className="border p-2 w-full rounded-md shadow-md text-lg text-gray-900 m-2 focus:outline-none focus:ring focus:border-blue-300"
                         onChange={(e) => {
                           setFormData((prev) => {
                             return {
@@ -419,7 +452,7 @@ const AddProjects_Admin = () => {
                       />
                       <input
                         type="text"
-                        className="outline-2 outline-blue-700 px-3 py-4 w-full rounded-lg shadow-lg text-lg text-gray-900 m-2"
+                        className="border p-2 w-full rounded-md shadow-md text-lg text-gray-900 m-2 focus:outline-none focus:ring focus:border-blue-300"
                         onChange={(e) => {
                           setFormData((prev) => {
                             return {
@@ -501,7 +534,7 @@ const AddProjects_Admin = () => {
                     >
                       <input
                         type="text"
-                        className="outline-2 outline-blue-700 px-3 py-4 w-full rounded-lg shadow-lg text-lg text-gray-900 m-2"
+                        className="border p-2 w-full rounded-md shadow-md text-lg text-gray-900 m-2 focus:outline-none focus:ring focus:border-blue-300"
                         onChange={(e) => {
                           setFormData((prev) => {
                             return {
