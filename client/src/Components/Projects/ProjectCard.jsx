@@ -18,11 +18,15 @@ const ProjectCard = ({
         <Heading count={projectCount} projectName={projectName} />
         <div className="ml-5 m-1 p-2 bg-slate-300 rounded-lg">
           <Title title={"Created At"} />
-          <p className="px-1 m-1 font-text text-sm font-semibold">{projectCreatedAt}</p>
+          <p className="px-1 m-1 font-text text-sm font-semibold">
+            {projectCreatedAt}
+          </p>
         </div>
         <div className="ml-5 m-1 p-2 bg-slate-300 rounded-lg">
           <Title title={"Updated At"} />
-          <p className="px-1 m-1 font-text text-sm font-semibold">{projectUpdatedAt}</p>
+          <p className="px-1 m-1 font-text text-sm font-semibold">
+            {projectUpdatedAt}
+          </p>
         </div>
         <div className="ml-5 m-1 p-2 bg-slate-300 rounded-lg">
           <Title title={"Description"} />
@@ -61,7 +65,7 @@ const ProjectCard = ({
         </div>
         <div className="ml-5 m-1 p-2 bg-slate-300 rounded-lg">
           <Title title={"Preview"} />
-          <div className="m-1 ml-2 overflow-x-auto flex items-center justify-start flex-row gap-x-2">
+          <div className="m-1 ml-2 overflow-x-auto custom-scrollbar flex items-center justify-start flex-row gap-x-2">
             {projectPreviews.map((value, index) => {
               return value.tag == "img" ? (
                 <img
