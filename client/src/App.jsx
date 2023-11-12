@@ -13,6 +13,7 @@ import ShowProjects_Admin from "./Pages/adminDashboard/ShowProjects_Admin";
 import AddProjects_Admin from "./Pages/adminDashboard/AddProjects_Admin";
 import PrivateRoute from "./Pages/adminDashboard/PrivateRoute";
 import Admin from "./Pages/adminDashboard/Admin";
+import UpdateProject from "./Pages/adminDashboard/UpdateProject";
 
 const App = () => {
   const loginState = useSelector((state) => state.login.credentials);
@@ -48,6 +49,11 @@ const App = () => {
               exact
               path="/my/add-project-new"
               element={<AddProjects_Admin />}
+            />
+            <Route
+              exact
+              path="/admin-dashboard/update-project/:id"
+              element={<UpdateProject />}
             />
           </Route>
           <Route exact path="*" element={<NoPage />} />

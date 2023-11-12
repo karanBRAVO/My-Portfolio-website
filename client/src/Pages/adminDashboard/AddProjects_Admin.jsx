@@ -24,40 +24,42 @@ const AddProjects_Admin = () => {
     title: "",
   });
   const [projectKeyWord, setProjectKeyWord] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
-    axios
-      .post("/api/add-project-info", formData)
-      .then((response) => {
-        if (response.data.success) {
-          toast.success(response.data.message, {
-            position: "bottom-left",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "dark",
-          });
-        } else {
-          toast.error(response.data.message, {
-            position: "bottom-left",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "dark",
-          });
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    try {
+      const response = await axios.post("/api/add-project-info", formData);
+      if (response.data.success) {
+        toast.success(response.data.message, {
+          position: "bottom-left",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+      } else {
+        toast.error(response.data.message, {
+          position: "bottom-left",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+      }
+    } catch (error) {
+      console.error(error);
+    }
+
+    setLoading(false);
   };
 
   return (
@@ -572,8 +574,11 @@ const AddProjects_Admin = () => {
               </div>
             </div>
             <div className="text-center">
-              <button className="bg-green-700 text-white px-3 py-4 rounded-lg shadow-lg m-2 font-bold font-text capitalize hover:bg-green-600">
-                Add Project
+              <button
+                disabled={loading}
+                className="bg-green-700 text-white px-3 py-4 rounded-lg shadow-lg m-2 font-bold font-text capitalize hover:bg-green-600 disabled:bg-green-300 disabled:cursor-progress"
+              >
+                {loading ? <span>Processing ...</span> : <span>Add Project</span>}
               </button>
             </div>
           </form>
