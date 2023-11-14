@@ -27,6 +27,39 @@ const getProjectById = async (req, res) => {
   }
 };
 
+const getProject_search = async (req, res) => {
+  try {
+    const { searchInput } = req.query;
+    const query = {
+      $or: [
+        { projectName: { $regex: new RegExp(searchInput, "i") } },
+        { projectDescription: { $regex: new RegExp(searchInput, "i") } },
+        {
+          projectKeyFeatures: {
+            $elemMatch: { $regex: new RegExp(searchInput, "i") },
+          },
+        },
+        { "projectLinks.sourceName": { $regex: new RegExp(searchInput, "i") } },
+        { "projectLinks.linkTo": { $regex: new RegExp(searchInput, "i") } },
+        { "projectPreviews.tag": { $regex: new RegExp(searchInput, "i") } },
+        { "projectPreviews.title": { $regex: new RegExp(searchInput, "i") } },
+        { "projectPreviews.src": { $regex: new RegExp(searchInput, "i") } },
+        { projectKeywords: { $regex: new RegExp(searchInput, "i") } },
+      ],
+    };
+
+    const projects = await projectModel.find(query);
+    if (!projects) {
+      const error = new Error("[-] no project found.");
+      throw error;
+    }
+
+    res.json({ success: true, message: "[+] Project Found.", data: projects });
+  } catch (err) {
+    res.json({ success: false, message: err.message });
+  }
+};
+
 const addProject = async (req, res) => {
   try {
     const addDataToDb = new projectModel(req.body);
@@ -66,6 +99,7 @@ const deleteProject = async (req, res) => {
 export default {
   getProject,
   getProjectById,
+  getProject_search,
   addProject,
   updateProject,
   deleteProject,

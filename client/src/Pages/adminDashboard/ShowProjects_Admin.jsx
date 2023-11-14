@@ -6,11 +6,13 @@ import { faSearchengin, faDashcube } from "@fortawesome/free-brands-svg-icons";
 import { Link, useNavigate } from "react-router-dom";
 import Logo from "../../assets/myLogo.jpg";
 import Loading from "../../Components/Loading";
+import { toast } from "react-toastify";
 
 const ShowProjects_Admin = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const [searchData, setSearchData] = useState("");
 
   useEffect(() => {
     setLoading(true);
@@ -27,6 +29,34 @@ const ShowProjects_Admin = () => {
       });
   }, []);
 
+  const getData_search = async () => {
+    if (searchData.length > 0) {
+      setLoading(true);
+
+      try {
+        const response = await axios.get(
+          `/api/get-project-info/by-search?searchInput=${searchData}`
+        );
+        if (response.data.success) {
+          setData(response.data.data);
+        }
+      } catch (err) {
+        console.error(err);
+        toast.error("Error", {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      }
+
+      setLoading(false);
+    }
+  };
+
   return (
     <>
       <div className="bg-teal-900 p-3 w-screen flex flex-row items-center justify-around fixed bottom-0">
@@ -42,13 +72,26 @@ const ShowProjects_Admin = () => {
             type="search"
             name="search"
             id="search"
+            value={searchData}
+            onChange={(e) => {
+              setSearchData(e.target.value);
+            }}
+            onKeyDown={(e) => {
+              const key = e.key;
+              if (key == "Enter") {
+                getData_search();
+              }
+            }}
             className="p-3 bg-transparent outline-none font-text"
             placeholder="Search"
             autoComplete="off"
           />
           <FontAwesomeIcon
             icon={faSearchengin}
-            className="text-teal-950 text-3xl"
+            className="text-teal-950 text-3xl cursor-pointer"
+            onClick={() => {
+              getData_search();
+            }}
           />
         </div>
         <div className="mx-1">
