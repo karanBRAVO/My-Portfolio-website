@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import myLogo from "../../assets/myLogo.jpg";
 
 const Admin = () => {
   const navigate = useNavigate();
@@ -6,8 +7,18 @@ const Admin = () => {
   return (
     <>
       <div className="w-screen h-screen flex flex-col md:flex-row bg-gray-800">
-        <div className="fixed top-0 w-full bg-gray-900 p-4 text-white text-center">
-          <h1 className="text-2xl font-bold font-heading capitalize">Admin Dashboard</h1>
+        <div className="fixed top-0 flex items-center justify-center w-full bg-gray-900 p-4 text-white text-center">
+          <h1 className="text-2xl font-bold font-heading capitalize">
+            Admin Dashboard
+          </h1>
+          <img
+            src={myLogo}
+            alt="Logo"
+            onClick={() => {
+              navigate("/");
+            }}
+            className="rounded-full m-1 w-5 h-5 cursor-pointer"
+          />
         </div>
         <div className="flex-1 flex items-center justify-center">
           <div

@@ -3,7 +3,7 @@ import ProjectCard from "./ProjectCard";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearchengin, faDashcube } from "@fortawesome/free-brands-svg-icons";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Logo from "../../assets/myLogo.jpg";
 import Loading from "../../Components/Loading";
 
@@ -30,11 +30,13 @@ const ShowProjects_Admin = () => {
   return (
     <>
       <div className="bg-teal-900 p-3 w-screen flex flex-row items-center justify-around fixed bottom-0">
-        <img
-          src={Logo}
-          alt="pic"
-          className="mx-1 rounded-md w-16 hidden sm:block"
-        />
+        <Link to={"/"}>
+          <img
+            src={Logo}
+            alt="pic"
+            className="mx-1 rounded-md w-16 hidden sm:block"
+          />
+        </Link>
         <div className="bg-teal-300 mx-1 flex items-center justify-between p-2 rounded-lg">
           <input
             type="search"

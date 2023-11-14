@@ -41,7 +41,12 @@ const updateProject = async (req, res) => {
   try {
     const id = req.params.id;
     const updateData = req.body;
-    await projectModel.updateProject({ _id: id }, updateData);
+    await projectModel.updateOne(
+      { _id: id },
+      {
+        $set: { ...updateData },
+      }
+    );
     res.json({ success: true, message: "[+] Project updated" });
   } catch (err) {
     res.json({ success: false, message: err.message });
