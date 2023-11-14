@@ -13,6 +13,32 @@ const getProject = async (req, res) => {
   }
 };
 
+const getProject_byKeywords = async (req, res) => {
+  try {
+    const keyword = req.query.keyword;
+    if (!keyword) {
+      const error = new Error("[-] no keyword provided.");
+      throw error;
+    }
+
+    // creating a new query object
+    const query = {
+      projectKeywords: { $in: [new RegExp(keyword, "i")] },
+    };
+
+    // finding project
+    const projects = await projectModel.find(query);
+    if (!projects || projects.length === 0) {
+      const error = new Error("[-] no projects found.");
+      throw error;
+    }
+
+    res.json({ success: true, message: "Projects found.", data: projects });
+  } catch (err) {
+    res.json({ success: false, message: err.message });
+  }
+};
+
 const getProjectById = async (req, res) => {
   try {
     const id = req.params.id;
@@ -98,6 +124,7 @@ const deleteProject = async (req, res) => {
 
 export default {
   getProject,
+  getProject_byKeywords,
   getProjectById,
   getProject_search,
   addProject,

@@ -16,10 +16,15 @@ const ShowProjects = () => {
 
     const fetchProjects = async () => {
       try {
-        const res = await axios.get("/api/get-project-info");
+        const keyword = window.location.search.toString().split("=")[1].toLowerCase();
+        const res = await axios.get(
+          `/api/get-project-info/by-keywords?keyword=${keyword}`
+        );
         if (res.data.success) {
           setLoading(false);
           setData(res.data.data);
+        } else {
+          console.error(res.data.message);
         }
       } catch (err) {
         console.error(err);

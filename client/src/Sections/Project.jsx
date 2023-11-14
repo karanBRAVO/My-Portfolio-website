@@ -48,7 +48,10 @@ const projects = [
 const Project = () => {
   return (
     <>
-      <div className={`md:ml-[75.5px] sm:h-screen w-full md:w-auto bg-[#e5e6ea]`} id="projectSection">
+      <div
+        className={`md:ml-[75.5px] sm:h-screen w-full md:w-auto bg-[#e5e6ea]`}
+        id="projectSection"
+      >
         <Title
           imgSrc={PROJECT_BANNER}
           quote={"Design is intelligence made visible."}
@@ -62,7 +65,7 @@ const Project = () => {
           {projects.map((value, index) => {
             return (
               <div key={index} className="m-2 p-2">
-                <Link to={"/my-project-show"}>
+                <Link to={`/my-project-show/query?value=${value.text}`}>
                   <Card imgSrc={value.imgSrc} text={value.text} />
                 </Link>
               </div>

@@ -6,6 +6,10 @@ const router = express.Router();
 
 router.get("/get-project-info", projectContollers.getProject);
 router.get(
+  "/get-project-info/by-keywords",
+  projectContollers.getProject_byKeywords
+);
+router.get(
   "/get-project-info/by-id/:id",
   authenticateAdmin,
   projectContollers.getProjectById

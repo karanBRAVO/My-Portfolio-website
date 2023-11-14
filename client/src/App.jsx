@@ -25,7 +25,11 @@ const App = () => {
       <BrowserRouter>
         <Routes>
           <Route exact path="/" element={<Home />} />
-          <Route exact path="/my-project-show" element={<ShowProjects />} />
+          <Route
+            exact
+            path="/my-project-show/query"
+            element={<ShowProjects />}
+          />
           {!loginState.isLoggedIn ? (
             <>
               <Route exact path="/sign-up" element={<SignUp />} />
