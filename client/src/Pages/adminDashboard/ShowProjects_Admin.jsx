@@ -7,8 +7,11 @@ import { Link, useNavigate } from "react-router-dom";
 import Logo from "../../assets/myLogo.jpg";
 import Loading from "../../Components/Loading";
 import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
+import Logout_Admin from "./Logout_Admin";
 
 const ShowProjects_Admin = () => {
+  const check_admin = useSelector((state) => state.admin);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -17,7 +20,11 @@ const ShowProjects_Admin = () => {
   useEffect(() => {
     setLoading(true);
     axios
-      .get("/api/get-project-info")
+      .get("/api/get-project-info", {
+        headers: {
+          Authorization: `Bearer ${check_admin.token}`,
+        },
+      })
       .then((response) => {
         if (response.data.success) {
           setData(response.data.data);
@@ -35,7 +42,12 @@ const ShowProjects_Admin = () => {
 
       try {
         const response = await axios.get(
-          `/api/get-project-info/by-search?searchInput=${searchData}`
+          `/api/get-project-info/by-search?searchInput=${searchData}`,
+          {
+            headers: {
+              Authorization: `Bearer ${check_admin.token}`,
+            },
+          }
         );
         if (response.data.success) {
           setData(response.data.data);
@@ -60,6 +72,7 @@ const ShowProjects_Admin = () => {
   return (
     <>
       <div className="bg-teal-900 p-3 w-screen flex flex-row items-center justify-around fixed bottom-0">
+        <Logout_Admin />
         <Link to={"/"}>
           <img
             src={Logo}

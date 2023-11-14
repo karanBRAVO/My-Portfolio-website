@@ -5,8 +5,10 @@ import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDebian } from "@fortawesome/free-brands-svg-icons";
 import Loading from "../../Components/Loading";
+import { useSelector } from "react-redux";
 
 const UpdateProject = () => {
+  const check_admin = useSelector((state) => state.admin);
   const [projectData, setProjectData] = useState(null);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
@@ -18,12 +20,18 @@ const UpdateProject = () => {
     try {
       const arr = window.location.href.split("/");
       const id = arr[arr.length - 1];
-      axios.get(`/api/get-project-info/by-id/${id}`).then((response) => {
-        if (response.data.success) {
-          setProjectData(response.data.data);
-          setLoading(false);
-        }
-      });
+      axios
+        .get(`/api/get-project-info/by-id/${id}`, {
+          headers: {
+            Authorization: `Bearer ${check_admin.token}`,
+          },
+        })
+        .then((response) => {
+          if (response.data.success) {
+            setProjectData(response.data.data);
+            setLoading(false);
+          }
+        });
     } catch (error) {
       console.error(error);
       toast.error("Error while getting project details", {
@@ -50,7 +58,8 @@ const UpdateProject = () => {
 
       const res = await axios.put(
         `/api/update-project-info/${id}`,
-        projectData
+        projectData,
+        { headers: { Authorization: `Bearer ${check_admin.token}` } }
       );
 
       if (res.data.success) {

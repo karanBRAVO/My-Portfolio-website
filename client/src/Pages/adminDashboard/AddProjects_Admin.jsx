@@ -3,8 +3,12 @@ import { Link } from "react-router-dom";
 import ProjectCard from "../../Components/Projects/ProjectCard";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
+import Logout_Admin from "./Logout_Admin";
 
 const AddProjects_Admin = () => {
+  const check_admin = useSelector((state) => state.admin);
+
   const [formData, setFormData] = useState({
     projectName: "",
     projectDescription: "",
@@ -28,43 +32,50 @@ const AddProjects_Admin = () => {
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
+    if (check_admin.isAdmin) {
+      setLoading(true);
 
-    try {
-      const response = await axios.post("/api/add-project-info", formData);
-      if (response.data.success) {
-        toast.success(response.data.message, {
-          position: "bottom-left",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "dark",
+      try {
+        const response = await axios.post("/api/add-project-info", formData, {
+          headers: {
+            Authorization: `Bearer ${check_admin.token}`,
+          },
         });
-      } else {
-        toast.error(response.data.message, {
-          position: "bottom-left",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "dark",
-        });
+        if (response.data.success) {
+          toast.success(response.data.message, {
+            position: "bottom-left",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+          });
+        } else {
+          toast.error(response.data.message, {
+            position: "bottom-left",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+          });
+        }
+      } catch (error) {
+        console.error(error);
       }
-    } catch (error) {
-      console.error(error);
-    }
 
-    setLoading(false);
+      setLoading(false);
+    }
   };
 
   return (
     <>
       <div className="bg-gray-600">
+        <Logout_Admin />
         <div className="p-2 bg-slate-700 text-white">
           <h1 className="flex items-center flex-row justify-center">
             <Link to={"/admin-dashboard"}>
@@ -578,7 +589,11 @@ const AddProjects_Admin = () => {
                 disabled={loading}
                 className="bg-green-700 text-white px-3 py-4 rounded-lg shadow-lg m-2 font-bold font-text capitalize hover:bg-green-600 disabled:bg-green-300 disabled:cursor-progress"
               >
-                {loading ? <span>Processing ...</span> : <span>Add Project</span>}
+                {loading ? (
+                  <span>Processing ...</span>
+                ) : (
+                  <span>Add Project</span>
+                )}
               </button>
             </div>
           </form>

@@ -2,8 +2,10 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { useSelector } from "react-redux";
 
 const ProjectCard = ({ id, createdAt, updatedAt, name }) => {
+  const check_admin = useSelector((state) => state.admin);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
@@ -12,24 +14,42 @@ const ProjectCard = ({ id, createdAt, updatedAt, name }) => {
   };
 
   const deleteProject = async (id) => {
-    setLoading(true);
+    if (confirm("Are you sure you want to delete this project")) {
+      setLoading(true);
 
-    try {
-      const response = await axios.delete(`/api/delete-project-info/${id}`);
-      if (response.data.success) {
-        toast.success(response.data.message, {
-          position: "bottom-left",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "dark",
+      try {
+        const response = await axios.delete(`/api/delete-project-info/${id}`, {
+          headers: {
+            Authorization: `Bearer ${check_admin.token}`,
+          },
         });
-        navigate("/admin-dashboard");
-      } else {
-        toast.error(response.data.message, {
+        if (response.data.success) {
+          toast.success(response.data.message, {
+            position: "bottom-left",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+          });
+          navigate("/admin-dashboard");
+        } else {
+          toast.error(response.data.message, {
+            position: "bottom-left",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+          });
+        }
+      } catch (error) {
+        console.error(error);
+        toast.error("Cannot make delete request", {
           position: "bottom-left",
           autoClose: 5000,
           hideProgressBar: false,
@@ -40,21 +60,9 @@ const ProjectCard = ({ id, createdAt, updatedAt, name }) => {
           theme: "dark",
         });
       }
-    } catch (error) {
-      console.error(error);
-      toast.error("Cannot make delete request", {
-        position: "bottom-left",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "dark",
-      });
-    }
 
-    setLoading(false);
+      setLoading(false);
+    }
   };
 
   return (

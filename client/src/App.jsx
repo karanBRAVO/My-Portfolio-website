@@ -14,9 +14,11 @@ import AddProjects_Admin from "./Pages/adminDashboard/AddProjects_Admin";
 import PrivateRoute from "./Pages/adminDashboard/PrivateRoute";
 import Admin from "./Pages/adminDashboard/Admin";
 import UpdateProject from "./Pages/adminDashboard/UpdateProject";
+import Admin_Login from "./Pages/adminDashboard/Admin_Login";
 
 const App = () => {
   const loginState = useSelector((state) => state.login.credentials);
+  const check_admin = useSelector((state) => state.admin);
 
   return (
     <>
@@ -38,6 +40,15 @@ const App = () => {
             path="/my/terms-of-services"
             element={<Terms_of_Services />}
           />
+          {check_admin.isAdmin ? (
+            <></>
+          ) : (
+            <Route
+              exact
+              path="/admin-dashboard/admin-login"
+              element={<Admin_Login />}
+            />
+          )}
           <Route element={<PrivateRoute />}>
             <Route exact path="/admin-dashboard" element={<Admin />} />
             <Route

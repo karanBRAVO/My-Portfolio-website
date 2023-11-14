@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import myLogo from "../../assets/myLogo.jpg";
+import Logout_Admin from "./Logout_Admin";
 
 const Admin = () => {
   const navigate = useNavigate();
@@ -7,6 +8,7 @@ const Admin = () => {
   return (
     <>
       <div className="w-screen h-screen flex flex-col md:flex-row bg-gray-800">
+        <Logout_Admin />
         <div className="fixed top-0 flex items-center justify-center w-full bg-gray-900 p-4 text-white text-center">
           <h1 className="text-2xl font-bold font-heading capitalize">
             Admin Dashboard
