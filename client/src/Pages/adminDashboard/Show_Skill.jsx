@@ -101,7 +101,7 @@ const Show_Skill = () => {
         </div>
       </nav>
 
-      <div className="container mx-auto my-8">
+      <div className="container mx-auto mt-8 py-3 px-2">
         {loading ? (
           <div className="text-2xl font-bold text-center">Loading...</div>
         ) : (
@@ -110,12 +110,12 @@ const Show_Skill = () => {
               skills.map((value, index) => (
                 <div
                   key={index}
-                  className="bg-gray-800 p-4 rounded-lg shadow-md transition-transform transform hover:scale-105"
+                  className="bg-gray-800 p-4 rounded-lg shadow-md"
                 >
                   <img
                     src={value.imageUrl}
                     alt="image"
-                    className="w-full h-48 object-cover mb-4 rounded shadow-md"
+                    className="w-full h-48 object-center mb-4 rounded shadow-md transition-transform transform hover:scale-105"
                   />
                   <div>
                     <h1 className="text-xl font-bold mb-2 text-yellow-400 capitalize">
