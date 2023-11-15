@@ -170,7 +170,7 @@ const OtpVerification_forgetPassword = ({ email }) => {
               <button
                 type="submit"
                 disabled={loadingStatus}
-                className="bg-blue-500 hover:bg-blue-700 font-bold py-2 px-4 rounded-full hover:opacity-95 text-white font-myBtn text-base capitalize disabled:bg-blue-500 disabled:cursor-not-allowed"
+                className="bg-blue-500 hover:bg-blue-700 font-bold py-2 px-4 rounded-full hover:opacity-95 text-white font-myBtn text-base capitalize disabled:bg-blue-500 disabled:cursor-not-allowed m-1"
               >
                 {loadingStatus ? <>Processing ...</> : <>Verify</>}
               </button>

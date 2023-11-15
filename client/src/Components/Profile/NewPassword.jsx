@@ -114,7 +114,7 @@ const NewPassword = ({ email }) => {
             className="gap-3 flex flex-col items-center justify-center p-2"
           >
             <input
-              className="px-2 py-1 rounded-md border-[1px] border-solid border-white text-white bg-transparent text-base font-semibold outline-none"
+              className="px-2 py-1 rounded-md border-[1px] border-solid border-white text-white bg-transparent text-base font-semibold outline-none m-1"
               type="password"
               name="password"
               id="password"
@@ -124,7 +124,7 @@ const NewPassword = ({ email }) => {
               onChange={handleInputChange}
             />
             <input
-              className="px-2 py-1 rounded-md border-[1px] border-solid border-white text-white bg-transparent text-base font-semibold outline-none"
+              className="px-2 py-1 rounded-md border-[1px] border-solid border-white text-white bg-transparent text-base font-semibold outline-none m-1"
               type="password"
               name="confirmPassword"
               id="confirmPassword"
@@ -141,7 +141,7 @@ const NewPassword = ({ email }) => {
             <button
               type="submit"
               disabled={loadingStatus}
-              className="bg-blue-500 hover:bg-blue-700 font-bold py-2 px-4 rounded-full hover:opacity-95 text-white font-myBtn text-base capitalize disabled:bg-blue-500 disabled:cursor-not-allowed"
+              className="bg-blue-500 hover:bg-blue-700 font-bold py-2 px-4 rounded-full hover:opacity-95 text-white font-myBtn text-base capitalize disabled:bg-blue-500 disabled:cursor-not-allowed m-1"
             >
               {loadingStatus ? <>Processing ...</> : <>Reset Password</>}
             </button>
