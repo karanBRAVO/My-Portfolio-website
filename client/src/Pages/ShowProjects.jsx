@@ -12,16 +12,18 @@ const ShowProjects = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setLoading(true);
-
     const fetchProjects = async () => {
+      setLoading(true);
+
       try {
-        const keyword = window.location.search.toString().split("=")[1].toLowerCase();
+        const keyword = window.location.search
+          .toString()
+          .split("=")[1]
+          .toLowerCase();
         const res = await axios.get(
           `/api/get-project-info/by-keywords?keyword=${keyword}`
         );
         if (res.data.success) {
-          setLoading(false);
           setData(res.data.data);
         } else {
           console.error(res.data.message);
@@ -29,6 +31,8 @@ const ShowProjects = () => {
       } catch (err) {
         console.error(err);
       }
+
+      setLoading(false);
     };
 
     fetchProjects();
@@ -48,7 +52,7 @@ const ShowProjects = () => {
         </div>
         {loading ? (
           <Loading />
-        ) : (
+        ) : data.length > 0 ? (
           data.map((value, index) => {
             return (
               <ProjectCard
@@ -65,6 +69,10 @@ const ShowProjects = () => {
               />
             );
           })
+        ) : (
+          <p className="text-center text-3xl font-semibold text-gray-800 mt-8">
+            No Projects Found
+          </p>
         )}
       </section>
     </>

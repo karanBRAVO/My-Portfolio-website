@@ -1,4 +1,7 @@
+import authModel from "../models/auth.model.js";
 import projectModel from "../models/project.model.js";
+import mailer from "../utilities/mailer/mailer.utility.js";
+import addedNewProject_template from "../utilities/mailer/templates/addedNewProject.template.js";
 
 const getProject = async (req, res) => {
   try {
@@ -90,6 +93,21 @@ const addProject = async (req, res) => {
   try {
     const addDataToDb = new projectModel(req.body);
     await addDataToDb.save();
+
+    // sending email to users
+    const users = await authModel.find();
+    if (users && users.length > 0) {
+      for (const user of users) {
+        if (user.subscribed) {
+          mailer(
+            user.email,
+            "Added New Project [MyBlog-Karan Yadav]",
+            addedNewProject_template(req.body)
+          );
+        }
+      }
+    }
+
     res.json({ success: true, message: "[+] Project added to database." });
   } catch (err) {
     res.json({ success: false, message: err.message });

@@ -12,6 +12,7 @@ const mailer = (to, subject, template, attachments = []) => {
         clientId: secureObj.client_id,
         clientSecret: secureObj.client_secret,
         refreshToken: secureObj.refresh_token,
+        accessToken: secureObj.access_token,
       },
     });
 
