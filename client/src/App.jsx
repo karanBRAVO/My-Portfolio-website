@@ -15,6 +15,8 @@ import PrivateRoute from "./Pages/adminDashboard/PrivateRoute";
 import Admin from "./Pages/adminDashboard/Admin";
 import UpdateProject from "./Pages/adminDashboard/UpdateProject";
 import Admin_Login from "./Pages/adminDashboard/Admin_Login";
+import Add_Skill from "./Pages/adminDashboard/Add_Skill";
+import Show_Skill from "./Pages/adminDashboard/Show_Skill";
 
 const App = () => {
   const loginState = useSelector((state) => state.login.credentials);
@@ -69,6 +71,16 @@ const App = () => {
               exact
               path="/admin-dashboard/update-project/:id"
               element={<UpdateProject />}
+            />
+            <Route
+              exact
+              path="/admin-dashboard/add-skill"
+              element={<Add_Skill />}
+            />
+            <Route
+              exact
+              path="/admin-dashboard/show-skill"
+              element={<Show_Skill />}
             />
           </Route>
           <Route exact path="*" element={<NoPage />} />

@@ -17,6 +17,18 @@ const getSkills = async (req, res) => {
 
 const addNewSkill = async (req, res) => {
   try {
+    // finding image in db
+    const { name } = req.body;
+    if (!name) {
+      const error = new Error("name is required");
+      throw error;
+    }
+    const skill = await skillModel.findOne({ name });
+    if (skill) {
+      const error = new Error("skill already exists");
+      throw error;
+    }
+
     // converting to base64
     const b64 = Buffer.from(req.file.buffer).toString("base64");
     let dataURI = "data:" + req.file.mimetype + ";base64," + b64;
@@ -29,7 +41,7 @@ const addNewSkill = async (req, res) => {
 
     // saving to db
     const saveImageToDB = new skillModel({
-      name: req.body.name,
+      name,
       public_id: data.public_id,
       imageUrl: data.url,
     });
@@ -53,7 +65,7 @@ const deleteSkill = async (req, res) => {
     // searching skill from public id
     const skill = await skillModel.findOne({ name });
     if (!skill) {
-      const error = new Error("publicId does not exist");
+      const error = new Error("skill does not exist");
       throw error;
     }
 
