@@ -3,6 +3,7 @@ import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import dotEnv from "dotenv";
 import dbConnect from "./connection/dbConn.js";
+import { v2 as cloudinary } from "cloudinary";
 import projectRouter from "./routes/project.route.js";
 import skillRouter from "./routes/skill.route.js";
 import authRouter from "./routes/auth.route.js";
@@ -14,6 +15,12 @@ import adminRouter from "./routes/admin.route.js";
 const APP = express();
 dotEnv.config();
 dbConnect();
+cloudinary.config({
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+  secure: true,
+});
 APP.use(cookieParser());
 const PORT = process.env.PORT || 6000;
 
