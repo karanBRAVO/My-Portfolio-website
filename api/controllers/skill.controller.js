@@ -56,7 +56,7 @@ const addNewSkill = async (req, res) => {
 const deleteSkill = async (req, res) => {
   try {
     // getting public id
-    const { name } = req.body;
+    const name = req.query.name;
     if (!name) {
       const error = new Error("name is required");
       throw error;
