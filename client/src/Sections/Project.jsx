@@ -10,7 +10,7 @@ const Project = () => {
 
   const getSkill = async () => {
     try {
-      const res = await axios.get("/api/get-skills");
+      const res = await axios.get("https://my-portfolio-my-blog.onrender.com/api/get-skills");
       if (res.data.success) {
         setSkills(res.data.skills);
       }
