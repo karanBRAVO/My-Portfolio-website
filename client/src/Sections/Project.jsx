@@ -11,7 +11,12 @@ const Project = () => {
   const getSkill = async () => {
     try {
       const res = await axios.get(
-        `${import.meta.env.VITE_API_BASE_URL}/api/get-skills`
+        `${import.meta.env.VITE_API_BASE_URL}/api/get-skills`,
+        {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        }
       );
       if (res.data.success) {
         setSkills(res.data.skills);

@@ -26,7 +26,12 @@ const OtpVerfication = ({ email, password }) => {
           `${
             import.meta.env.VITE_API_BASE_URL
           }/api/auth/sign-up-user/verify-user`,
-          { email, otp }
+          { email, otp },
+          {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("token"),
+            },
+          }
         )
         .then((res) => {
           if (!res.data.success) {
@@ -80,10 +85,18 @@ const OtpVerfication = ({ email, password }) => {
 
   const handleResentOtp = () => {
     axios
-      .post(`${import.meta.env.VITE_API_BASE_URL}/api/auth/sign-up-user`, {
-        email,
-        password,
-      })
+      .post(
+        `${import.meta.env.VITE_API_BASE_URL}/api/auth/sign-up-user`,
+        {
+          email,
+          password,
+        },
+        {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        }
+      )
       .then((res) => {
         if (!res.data.success) {
           setErrorInfo("[-] Invalid request | try again later");

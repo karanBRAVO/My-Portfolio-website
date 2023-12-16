@@ -43,7 +43,12 @@ const Contact = () => {
         try {
           const res = await axios.post(
             `${import.meta.env.VITE_API_BASE_URL}/api/user/send-message/to-me`,
-            senderData
+            senderData,
+            {
+              headers: {
+                Authorization: "Bearer " + localStorage.getItem("token"),
+              },
+            }
           );
 
           if (res.data.success) {

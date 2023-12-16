@@ -21,7 +21,14 @@ const ShowProjects = () => {
           .split("=")[1]
           .toLowerCase();
         const res = await axios.get(
-          `${import.meta.env.VITE_API_BASE_URL}/api/get-project-info/by-keywords?keyword=${keyword}`
+          `${
+            import.meta.env.VITE_API_BASE_URL
+          }/api/get-project-info/by-keywords?keyword=${keyword}`,
+          {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("token"),
+            },
+          }
         );
         if (res.data.success) {
           setData(res.data.data);

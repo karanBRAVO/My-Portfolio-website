@@ -93,7 +93,12 @@ const Profile = () => {
                   `${
                     import.meta.env.VITE_API_BASE_URL
                   }/api/profile/upload-image`,
-                  { newPhotoUrl: downloadUrl }
+                  { newPhotoUrl: downloadUrl },
+                  {
+                    headers: {
+                      Authorization: "Bearer " + localStorage.getItem("token"),
+                    },
+                  }
                 )
                 .then((res) => {
                   if (res.data.success) {

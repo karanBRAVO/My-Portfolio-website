@@ -27,7 +27,11 @@ const loginSlice = createSlice({
       state.credentials.photoUrl = "";
       state.credentials.isLoggedIn = false;
       axios
-        .get(`${import.meta.env.VITE_API_BASE_URL}/api/profile/logout-user`)
+        .get(`${import.meta.env.VITE_API_BASE_URL}/api/profile/logout-user`, {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        })
         .then((res) => {
           if (res.data.success) {
             toast(`Logged Out`, {
@@ -75,7 +79,11 @@ const loginSlice = createSlice({
       state.credentials.photoUrl = "";
       state.credentials.isLoggedIn = false;
       axios
-        .get(`${import.meta.env.VITE_API_BASE_URL}/api/profile/delete-user`)
+        .get(`${import.meta.env.VITE_API_BASE_URL}/api/profile/delete-user`, {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        })
         .then((res) => {
           if (res.data.success) {
             toast(`Account Deleted`, {

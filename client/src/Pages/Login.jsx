@@ -59,9 +59,20 @@ const Login = () => {
               theme: "dark",
             });
           } else {
+            // setting the token
+            const token = res.data.token;
+            localStorage.setItem("token", token);
+
             // making profile request
             axios
-              .get(`${import.meta.env.VITE_API_BASE_URL}/api/profile/get-user`)
+              .get(
+                `${import.meta.env.VITE_API_BASE_URL}/api/profile/get-user`,
+                {
+                  headers: {
+                    Authorization: "Bearer " + token,
+                  },
+                }
+              )
               .then((res) => {
                 if (res.data.success) {
                   // setting global state for user
@@ -125,6 +136,11 @@ const Login = () => {
           }/api/profile/forget-password/send-otp`,
           {
             email: inputValues.email,
+          },
+          {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("token"),
+            },
           }
         )
         .then((response) => {

@@ -34,7 +34,12 @@ const OAuth = () => {
         `${
           import.meta.env.VITE_API_BASE_URL
         }/api/auth/authenticate-with-google`,
-        data
+        data,
+        {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        }
       );
 
       if (result.data.success) {

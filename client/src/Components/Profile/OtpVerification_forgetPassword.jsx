@@ -29,7 +29,12 @@ const OtpVerification_forgetPassword = ({ email }) => {
           `${
             import.meta.env.VITE_API_BASE_URL
           }/api/profile/forget-password/verify-otp`,
-          { otp }
+          { otp },
+          {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("token"),
+            },
+          }
         )
         .then((res) => {
           if (!res.data.success) {
@@ -100,6 +105,11 @@ const OtpVerification_forgetPassword = ({ email }) => {
         }/api/profile/forget-password/send-otp`,
         {
           email,
+        },
+        {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
         }
       )
       .then((response) => {

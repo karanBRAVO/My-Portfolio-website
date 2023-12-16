@@ -281,7 +281,7 @@ const forgetPassword_sendOtp = async (req, res) => {
     );
 
     // setting the cookie token
-    res.cookie("passwordResetToken", password_reset_token, { httpOnly: true });
+    // res.cookie("passwordResetToken", password_reset_token, { httpOnly: true });
 
     // sending mail
     const mailed = await mailer(
@@ -305,6 +305,7 @@ const forgetPassword_sendOtp = async (req, res) => {
     res.json({
       success: true,
       message: "[+] OTP sent for forget password request.",
+      token: password_reset_token,
     });
   } catch (err) {
     res.json({ success: false, message: err.message });

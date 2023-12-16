@@ -38,6 +38,11 @@ const NewPassword = ({ email }) => {
           }/api/profile/forget-password/reset-password`,
           {
             password: newPassword.password,
+          },
+          {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("token"),
+            },
           }
         )
         .then((res) => {

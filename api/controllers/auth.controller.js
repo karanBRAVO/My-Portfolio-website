@@ -164,14 +164,14 @@ const userLogin = async (req, res) => {
     const token = genToken(verifyEmail._id, 60 * 60 * 24);
 
     // setting cookie
-    res.cookie("token", token, {
-      httpOnly: true,
-      secure: true,
-      sameSite: "None",
-      domain: ".onrender.com",
-    });
+    // res.cookie("token", token, {
+    //   httpOnly: true,
+    //   secure: true,
+    //   sameSite: "None",
+    //   domain: ".onrender.com",
+    // });
 
-    res.json({ success: true, message: "[+] User logged in" });
+    res.json({ success: true, message: "[+] User logged in", token });
   } catch (err) {
     res.json({ success: false, message: err.message });
   }
@@ -194,14 +194,14 @@ const signIn_google = async (req, res) => {
       // generating token
       const token = genToken(hasAccount._id, 60 * 60 * 24);
 
-      res.cookie("token", token, {
-        httpOnly: true,
-        secure: true,
-        sameSite: "None",
-        domain: ".onrender.com",
-      });
+      // res.cookie("token", token, {
+      //   httpOnly: true,
+      //   secure: true,
+      //   sameSite: "None",
+      //   domain: ".onrender.com",
+      // });
 
-      res.json({ success: true, message: "[+] User logged in" });
+      res.json({ success: true, message: "[+] User logged in", token });
     } else {
       const password = bcrypt.hashSync(
         Math.random().toString(36).slice(-8) +
@@ -232,14 +232,14 @@ const signIn_google = async (req, res) => {
       const token = genToken(hasAccount._id, 60 * 60 * 24);
 
       // setting the cookie token
-      res.cookie("token", token, {
-        httpOnly: true,
-        secure: true,
-        sameSite: "None",
-        domain: ".onrender.com",
-      });
+      // res.cookie("token", token, {
+      //   httpOnly: true,
+      //   secure: true,
+      //   sameSite: "None",
+      //   domain: ".onrender.com",
+      // });
 
-      res.json({ success: true, message: "[+] User Added to database" });
+      res.json({ success: true, message: "[+] User Added to database", token });
     }
   } catch (error) {
     res.json({ success: false, message: error.message });

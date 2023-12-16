@@ -53,7 +53,12 @@ const Footer = () => {
         try {
           const res = await axios.post(
             `${import.meta.env.VITE_API_BASE_URL}/api/user/subscribe-user`,
-            { email }
+            { email },
+            {
+              headers: {
+                Authorization: "Bearer " + localStorage.getItem("token"),
+              },
+            }
           );
 
           if (res.data.success) {
