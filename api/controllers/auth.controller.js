@@ -168,7 +168,7 @@ const userLogin = async (req, res) => {
       httpOnly: true,
       secure: true,
       sameSite: "None",
-      domain: "https://my-portfolio-my-blog.onrender.com",
+      domain: ".onrender.com",
     });
 
     res.json({ success: true, message: "[+] User logged in" });
@@ -198,7 +198,7 @@ const signIn_google = async (req, res) => {
         httpOnly: true,
         secure: true,
         sameSite: "None",
-        domain: "https://my-portfolio-my-blog.onrender.com",
+        domain: ".onrender.com",
       });
 
       res.json({ success: true, message: "[+] User logged in" });
@@ -236,7 +236,7 @@ const signIn_google = async (req, res) => {
         httpOnly: true,
         secure: true,
         sameSite: "None",
-        domain: "https://my-portfolio-my-blog.onrender.com",
+        domain: ".onrender.com",
       });
 
       res.json({ success: true, message: "[+] User Added to database" });
