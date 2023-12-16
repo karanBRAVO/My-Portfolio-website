@@ -28,11 +28,15 @@ const userSubscription = async (req, res, next) => {
     await authModel.updateOne({ _id: user_id }, { $set: { subscribed: true } });
 
     // sending mail
-    mailer(
+    const mailed = await mailer(
       user.email,
       "Subscribed Successfully",
       subscribed_template(user.email)
     );
+    if (!mailed) {
+      const err = new Error("Cannot send mail");
+      throw err;
+    }
 
     res.json({ success: true, message: "[+] user subscribed" });
   } catch (err) {

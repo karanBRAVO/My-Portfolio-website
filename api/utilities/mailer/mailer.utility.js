@@ -1,18 +1,20 @@
 import nodemailer from "nodemailer";
-import secureObj from "../../secure.js";
+import dotenv from "dotenv";
 
-const mailer = (to, subject, template, attachments = []) => {
+dotenv.config();
+
+const mailer = async (to, subject, template, attachments = []) => {
   try {
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
         type: "OAuth2",
-        user: secureObj.email,
-        pass: secureObj.password,
-        clientId: secureObj.client_id,
-        clientSecret: secureObj.client_secret,
-        refreshToken: secureObj.refresh_token,
-        accessToken: secureObj.access_token,
+        user: process.env.EMAIL,
+        pass: process.env.PASSWORD,
+        clientId: process.env.CLIENT_ID,
+        clientSecret: process.env.CLIENT_SECRET,
+        refreshToken: process.env.REFRESH_TOKEN,
+        accessToken: process.env.ACCESS_TOKEN,
       },
     });
 
@@ -24,14 +26,15 @@ const mailer = (to, subject, template, attachments = []) => {
       attachments,
     };
 
-    transporter.sendMail(message, (err, info) => {
-      if (err) {
-        console.log("[!] Error");
-        console.log(err);
-        throw Error(err);
-      }
-    });
-  } catch (err) {}
+    const res = await transporter.sendMail(message);
+    if (!res) {
+      throw new Error("Cannot send mail");
+    }
+
+    return true;
+  } catch (err) {
+    return false;
+  }
 };
 
 export default mailer;

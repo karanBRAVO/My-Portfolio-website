@@ -99,11 +99,15 @@ const addProject = async (req, res) => {
     if (users && users.length > 0) {
       for (const user of users) {
         if (user.subscribed) {
-          mailer(
+          const mailed = await mailer(
             user.email,
             "Added New Project [MyBlog-Karan Yadav]",
             addedNewProject_template(req.body)
           );
+          if (!mailed) {
+            const err = new Error("Cannot send mail to user");
+            throw err;
+          }
         }
       }
     }

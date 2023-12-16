@@ -38,11 +38,15 @@ const message_to_me = async (req, res, next) => {
     }
 
     // sending mail to me
-    mailer(
+    const mailed = await mailer(
       "xpresskaran98@gmail.com",
       "Message from your Portfolio Site",
       usersMessage_template(name, email, phone, msg)
     );
+    if (!mailed) {
+      const err = new Error("Cannot send mail");
+      throw err;
+    }
 
     res.json({ success: true, message: "[+] Message sent to Karan Yadav" });
   } catch (err) {

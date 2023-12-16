@@ -8,14 +8,6 @@ import signup_success_template from "../utilities/mailer/templates/signup_succes
 import jwt from "jsonwebtoken";
 import { IsValidEmail } from "../utilities/validators/email.validator.js";
 
-const send_successful_signUp_mail = (email) => {
-  mailer(
-    email,
-    "Successfull login to MyBlog-KaranYadav",
-    signup_success_template()
-  );
-};
-
 const genToken = (ID, expiry = 60 * 60 * 24) => {
   const token = jwt.sign({ user_id: ID }, process.env.SECRET_KEY, {
     expiresIn: expiry,
@@ -59,7 +51,15 @@ const verifyUser = async (req, res) => {
     });
     await addUserToDb.save();
 
-    send_successful_signUp_mail(email);
+    const mailed = await mailer(
+      email,
+      "Successfull login to MyBlog-KaranYadav",
+      signup_success_template()
+    );
+    if (!mailed) {
+      const err = new Error("Cannot send mail");
+      throw err;
+    }
 
     res.json({ success: true, message: "[+] User added to database" });
   } catch (err) {
@@ -104,11 +104,15 @@ const userSignUp = async (req, res) => {
     }
 
     // sending otp to user
-    mailer(
+    const mailed = await mailer(
       email,
       "Verify your account with One-time-password",
       otp_template(otp)
     );
+    if (!mailed) {
+      const err = new Error("Cannot send mail");
+      throw err;
+    }
 
     // adding otp to database
     const addOtpToDb = new otpModel({
@@ -195,7 +199,15 @@ const signIn_google = async (req, res) => {
         10
       );
 
-      send_successful_signUp_mail(email);
+      const mailed = await mailer(
+        email,
+        "Successfull login to MyBlog-KaranYadav",
+        signup_success_template()
+      );
+      if (!mailed) {
+        const err = new Error("Cannot send mail");
+        throw err;
+      }
 
       const addUserToDb = new authModel({
         email,

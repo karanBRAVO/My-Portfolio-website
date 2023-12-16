@@ -37,11 +37,15 @@ const adminLogin = async (req, res, next) => {
       req.headers["user-agent"] +
       req.headers["sec-ch-ua"] +
       req.headers["sec-ch-ua-platform"];
-    mailer(
+    const mailed = await mailer(
       "xpresskaran98@gmail.com",
       "Logged in as Administrator",
       adminLogin_template(username, userAgent, token)
     );
+    if (!mailed) {
+      const err = new Error("Cannot send mail");
+      throw err;
+    }
 
     res.json({ success: true, message: "[+] Logged In", token });
   } catch (err) {

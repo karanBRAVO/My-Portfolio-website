@@ -19,6 +19,7 @@ const Contact = () => {
     phone: "",
     msg: "",
   });
+  const [loading, setLoading] = useState(false);
   const [errorInfo, setErrorInfo] = useState(null);
 
   useEffect(() => {
@@ -27,9 +28,10 @@ const Contact = () => {
     });
   }, [loginState]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     setErrorInfo(null);
     e.preventDefault();
+    setLoading(true);
 
     if (
       senderData.email &&
@@ -38,45 +40,47 @@ const Contact = () => {
       senderData.msg
     ) {
       if (senderData.email == loginState.email) {
-        axios
-          .post("/api/user/send-message/to-me", senderData)
-          .then((res) => {
-            if (res.data.success) {
-              setSenderData((prev) => {
-                return { ...prev, msg: "" };
-              });
+        try {
+          const res = await axios.post(
+            "/api/user/send-message/to-me",
+            senderData
+          );
 
-              toast.success(`Message sent`, {
-                position: "bottom-left",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "dark",
-              });
-            } else {
-              if (res.data.jwtError) {
-                dispatch(
-                  setInfo({ email: "", photoUrl: "", isLoggedIn: false })
-                );
-                navigate('/sign-up');
-              }
+          if (res.data.success) {
+            setSenderData((prev) => {
+              return { ...prev, msg: "" };
+            });
 
-              toast.error(`Cannot send message`, {
-                position: "bottom-left",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "dark",
-              });
+            toast.success(`Message sent`, {
+              position: "bottom-left",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "dark",
+            });
+          } else {
+            if (res.data.jwtError) {
+              dispatch(setInfo({ email: "", photoUrl: "", isLoggedIn: false }));
+              navigate("/sign-up");
             }
-          })
-          .catch((err) => console.log(err));
+
+            toast.error(`Cannot send message`, {
+              position: "bottom-left",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "dark",
+            });
+          }
+        } catch (e) {
+          console.error(e);
+        }
       } else {
         if (loginState.isLoggedIn) {
           dispatch(logout());
@@ -97,6 +101,8 @@ const Contact = () => {
     } else {
       setErrorInfo("* Fields cannot be empty");
     }
+
+    setLoading(false);
   };
 
   const handleOnchange = (e) => {
@@ -194,7 +200,10 @@ const Contact = () => {
               <></>
             )}
             <div className="p-1 m-2 ml-4">
-              <button className="text-black bg-[gold] border-2 border-solid border-[gold] rounded-lg cursor-pointer px-6 py-3 font-semibold font-text">
+              <button
+                disabled={loading}
+                className="text-black bg-[gold] border-2 border-solid border-[gold] rounded-lg cursor-pointer px-6 py-3 font-semibold font-text disabled:cursor-progress disabled:bg-[#ffd90069]"
+              >
                 Send
               </button>
             </div>

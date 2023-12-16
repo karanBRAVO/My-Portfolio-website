@@ -22,6 +22,7 @@ const Footer = () => {
   const navigate = useNavigate();
 
   const [email, setEmail] = useState(loginState.email);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     setEmail(loginState.email);
@@ -43,46 +44,46 @@ const Footer = () => {
     },
   ];
 
-  const handleSubscription = (e) => {
+  const handleSubscription = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
 
     if (email) {
       if (email == loginState.email) {
-        axios
-          .post("/api/user/subscribe-user", { email })
-          .then((res) => {
-            if (res.data.success) {
-              toast.success("Subscribed to Karan Yadav", {
-                position: "bottom-left",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "dark",
-              });
-            } else {
-              if (res.data.jwtError) {
-                dispatch(
-                  setInfo({ email: "", photoUrl: "", isLoggedIn: false })
-                );
-                navigate("/sign-up");
-              }
+        try {
+          const res = await axios.post("/api/user/subscribe-user", { email });
 
-              toast(`Cannot Subscribe`, {
-                position: "bottom-left",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "dark",
-              });
+          if (res.data.success) {
+            toast.success("Subscribed to Karan Yadav", {
+              position: "bottom-left",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "dark",
+            });
+          } else {
+            if (res.data.jwtError) {
+              dispatch(setInfo({ email: "", photoUrl: "", isLoggedIn: false }));
+              navigate("/sign-up");
             }
-          })
-          .catch((err) => console.log(err));
+
+            toast(`Cannot Subscribe | Already Subscribed`, {
+              position: "bottom-left",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "dark",
+            });
+          }
+        } catch (error) {
+          console.error(error);
+        }
       } else {
         if (loginState.isLoggedIn) {
           dispatch(logout());
@@ -101,6 +102,8 @@ const Footer = () => {
         });
       }
     }
+
+    setIsLoading(false);
   };
 
   const handleInputChange = (e) => {
@@ -124,9 +127,13 @@ const Footer = () => {
             </p>
             <p>
               <span>Powered by</span>
-              <span className="text-md text-[skyblue] mx-1">React Js</span>
+              <span className="text-md text-[skyblue] mx-1">
+                <a href="https://react.dev/">React Js</a>
+              </span>
               <span className="mx-1">and</span>
-              <span className="text-md text-[skyblue]">Tailwind CSS</span>
+              <span className="text-md text-[skyblue]">
+                <a href="https://tailwindcss.com/">Tailwind CSS</a>
+              </span>
             </p>
           </div>
         </div>
@@ -136,7 +143,10 @@ const Footer = () => {
               return (
                 <div key={index} className="p-1 m-1">
                   <a href={value.linkTo} target="_blank">
-                    <FontAwesomeIcon icon={value.name} />
+                    <FontAwesomeIcon
+                      icon={value.name}
+                      className="hover:text-blue-400"
+                    />
                   </a>
                 </div>
               );
@@ -178,7 +188,11 @@ const Footer = () => {
                 autoComplete="off"
                 className="outline-none text-black font-light p-1 rounded-none"
               />
-              <button className="font-text bg-blue-800 text-white cursor-pointer px-2 py-[4.5px]">
+              <button
+                disabled={isLoading}
+                type="submit"
+                className="font-text bg-blue-800 text-white cursor-pointer px-2 py-[4.5px] disabled:bg-blue-300 disabled:cursor-progress"
+              >
                 Subscribe
               </button>
             </form>

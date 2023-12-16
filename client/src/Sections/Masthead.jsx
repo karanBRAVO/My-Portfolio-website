@@ -27,8 +27,11 @@ const Masthead = () => {
               </h4>
             </div>
             <div className="p-1 m-1 flex flex-center justify-center flex-wrap">
+              <button className="p-4 border-[1.789px] border-black border-solid rounded-md bg-black text-white mx-2">
+                <span className="text-lg font-myBtn">Hire-Me</span>
+              </button>
               <AnchorLink href="#projectSection">
-                <button className="p-4 border-[1.789px] border-black border-solid rounded-md bg-transparent text-black">
+                <button className="p-4 border-[1.789px] border-black border-solid rounded-md bg-transparent text-black mx-2">
                   <span className="text-lg font-myBtn">Browse</span>
                 </button>
               </AnchorLink>

@@ -123,6 +123,8 @@ const Nav = () => {
             </svg>
           </button>
         </div>
+        
+        {/* For large screens */}
         <div className="hidden md:flex items-center justify-center m-2 p-2">
           {!navLinkVisibility ? (
             <Hamburger clickEvent={incNavWidth} />
@@ -134,7 +136,7 @@ const Nav = () => {
           <div className="h-full hidden md:flex items-center justify-center">
             <div className="m-1 p-1 rotate-[-90deg]">
               <span className="p-1 text-white text-4xl tracking-widest">
-                www.MyBlog.com
+                www.MyBlog.com<sub className="text-xs">Karan_Yadav</sub>
               </span>
             </div>
           </div>

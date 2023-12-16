@@ -108,11 +108,15 @@ const userDelete = async (req, res) => {
     await authModel.deleteOne({ _id: user_id });
 
     // sending mail
-    mailer(
+    const mailed = await mailer(
       user.email,
       "Account Successfully Deleted!",
       accountDeleted_template()
     );
+    if (!mailed) {
+      const err = new Error("Cannot send mail");
+      throw err;
+    }
 
     res.json({ success: true, message: "[+] User Deleted from DB." });
   } catch (err) {
@@ -168,11 +172,15 @@ const resetPassword = async (req, res) => {
     res.clearCookie("passwordResetToken");
 
     // sending mail
-    mailer(
+    const mailed = await mailer(
       user.email,
       "Successfully Updated Password MyBlog-Karan Yadav",
       resetPasswordSuccess_template()
     );
+    if (!mailed) {
+      const err = new Error("Cannot send email");
+      throw err;
+    }
 
     res.json({ success: true, message: "[+] Password reset successfully." });
   } catch (err) {
@@ -276,11 +284,15 @@ const forgetPassword_sendOtp = async (req, res) => {
     res.cookie("passwordResetToken", password_reset_token, { httpOnly: true });
 
     // sending mail
-    mailer(
+    const mailed = await mailer(
       user.email,
       "OTP to Reset Password MyBlog-Karan Yadav",
       otp_template(otp)
     );
+    if (!mailed) {
+      const err = new Error("Cannot send email");
+      throw err;
+    }
 
     // adding otp to database
     const addOtpToDb = new otpModel({
