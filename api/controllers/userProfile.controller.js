@@ -79,7 +79,7 @@ const userUploadImage = async (req, res) => {
 
 const userLogout = async (req, res) => {
   try {
-    res.clearCookie("token");
+    // res.clearCookie("token");
     res.json({ success: true, message: "[+] User logged out." });
   } catch (err) {
     res.json({ success: false, message: err.message });
@@ -88,7 +88,7 @@ const userLogout = async (req, res) => {
 
 const userDelete = async (req, res) => {
   try {
-    res.clearCookie("token");
+    // res.clearCookie("token");
 
     // getting user id decoded from jwt token
     const user_id = req.user_id;

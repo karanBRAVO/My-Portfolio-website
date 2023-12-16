@@ -44,6 +44,8 @@ const loginSlice = createSlice({
               progress: undefined,
               theme: "dark",
             });
+
+            localStorage.removeItem("token");
           } else {
             if (res.data.jwtError) {
               toast(`Logged Out`, {
@@ -96,6 +98,8 @@ const loginSlice = createSlice({
               progress: undefined,
               theme: "dark",
             });
+
+            localStorage.removeItem("token");
           } else {
             if (res.data.jwtError) {
               toast(`Deleted`, {
