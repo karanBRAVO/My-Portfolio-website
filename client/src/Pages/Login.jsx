@@ -136,11 +136,6 @@ const Login = () => {
           }/api/profile/forget-password/send-otp`,
           {
             email: inputValues.email,
-          },
-          {
-            headers: {
-              Authorization: "Bearer " + localStorage.getItem("token"),
-            },
           }
         )
         .then((response) => {
@@ -156,6 +151,10 @@ const Login = () => {
               theme: "dark",
             });
             setVerifyOtp(true);
+
+            // setting the reset token
+            localStorage.removeItem("token");
+            localStorage.setItem("token", response.data.token);
           } else {
             toast.error(response.data.message, {
               position: "bottom-left",
