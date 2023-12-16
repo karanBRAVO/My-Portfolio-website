@@ -164,7 +164,7 @@ const userLogin = async (req, res) => {
     const token = genToken(verifyEmail._id, 60 * 60 * 24);
 
     // setting cookie
-    res.cookie("token", token, { httpOnly: true });
+    res.cookie("token", token, { secure: true });
 
     res.json({ success: true, message: "[+] User logged in" });
   } catch (err) {
@@ -189,7 +189,7 @@ const signIn_google = async (req, res) => {
       // generating token
       const token = genToken(hasAccount._id, 60 * 60 * 24);
 
-      res.cookie("token", token, { httpOnly: true });
+      res.cookie("token", token, { secure: true });
 
       res.json({ success: true, message: "[+] User logged in" });
     } else {
@@ -222,7 +222,7 @@ const signIn_google = async (req, res) => {
       const token = genToken(hasAccount._id, 60 * 60 * 24);
 
       // setting the cookie token
-      res.cookie("token", token, { httpOnly: true });
+      res.cookie("token", token, { secure: true });
 
       res.json({ success: true, message: "[+] User Added to database" });
     }
