@@ -6,7 +6,7 @@ import OAuth from "../Components/auth/OAuth";
 import { useDispatch } from "react-redux";
 import { setInfo } from "../store/features/loginSlice";
 import { toast } from "react-toastify";
-import OtpVerification_forgetPassword from "../Components/Profile/otpVerification_forgetPassword";
+import OtpVerification_forgetPassword from "../Components/Profile/OtpVerification_forgetPassword";
 
 const Login = () => {
   const [loadingStatus, setLoadingStatus] = useState(false);
