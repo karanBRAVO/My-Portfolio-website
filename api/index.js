@@ -17,7 +17,7 @@ const APP = express();
 dotEnv.config();
 APP.use(
   cors({
-    origin: "https://my-portfolio-my-blog.vercel.app/",
+    origin: "https://my-portfolio-my-blog.vercel.app",
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     credentials: true,
     optionsSuccessStatus: 204,
