@@ -169,7 +169,7 @@ const resetPassword = async (req, res) => {
     );
 
     // clearing the cookie
-    res.clearCookie("passwordResetToken");
+    // res.clearCookie("passwordResetToken");
 
     // sending mail
     const mailed = await mailer(
