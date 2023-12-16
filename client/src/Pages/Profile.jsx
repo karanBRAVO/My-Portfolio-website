@@ -89,7 +89,12 @@ const Profile = () => {
                 photoUrl: downloadUrl,
               });
               axios
-                .post("/api/profile/upload-image", { newPhotoUrl: downloadUrl })
+                .post(
+                  `${
+                    import.meta.env.VITE_API_BASE_URL
+                  }/api/profile/upload-image`,
+                  { newPhotoUrl: downloadUrl }
+                )
                 .then((res) => {
                   if (res.data.success) {
                     toast.success(res.data.message, {

@@ -42,10 +42,13 @@ const Admin_Login = () => {
 
     // Send data to backend
     try {
-      const response = await axios.post(`/api/login-admin`, {
-        username,
-        passkeys: passkeysArray,
-      });
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_BASE_URL}/api/login-admin`,
+        {
+          username,
+          passkeys: passkeysArray,
+        }
+      );
       if (response.data.success) {
         const token = response.data.token;
         dispatch(setIsAdmin({ isAdmin: true, token: token }));

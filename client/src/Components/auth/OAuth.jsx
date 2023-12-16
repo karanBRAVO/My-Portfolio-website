@@ -31,7 +31,9 @@ const OAuth = () => {
       };
 
       const result = await axios.post(
-        "/api/auth/authenticate-with-google",
+        `${
+          import.meta.env.VITE_API_BASE_URL
+        }/api/auth/authenticate-with-google`,
         data
       );
 

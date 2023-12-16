@@ -32,9 +32,14 @@ const NewPassword = ({ email }) => {
       newPassword.confirmPassword.length > 0
     ) {
       axios
-        .post("/api/profile/forget-password/reset-password", {
-          password: newPassword.password,
-        })
+        .post(
+          `${
+            import.meta.env.VITE_API_BASE_URL
+          }/api/profile/forget-password/reset-password`,
+          {
+            password: newPassword.password,
+          }
+        )
         .then((res) => {
           if (!res.data.success) {
             setErrorInfo(res.data.message);

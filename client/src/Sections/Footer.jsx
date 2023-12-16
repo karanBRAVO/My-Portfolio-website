@@ -51,7 +51,10 @@ const Footer = () => {
     if (email) {
       if (email == loginState.email) {
         try {
-          const res = await axios.post("/api/user/subscribe-user", { email });
+          const res = await axios.post(
+            `${import.meta.env.VITE_API_BASE_URL}/api/user/subscribe-user`,
+            { email }
+          );
 
           if (res.data.success) {
             toast.success("Subscribed to Karan Yadav", {

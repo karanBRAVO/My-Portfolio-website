@@ -16,7 +16,9 @@ const Show_Skill = () => {
     setLoading(true);
 
     try {
-      const res = await axios.get("/api/get-skills");
+      const res = await axios.get(
+        `${import.meta.env.VITE_API_BASE_URL}/api/get-skills`
+      );
       if (res.data.success) {
         setSkills(res.data.skills);
       }
@@ -44,11 +46,14 @@ const Show_Skill = () => {
     setDeleting(true);
 
     try {
-      const res = await axios.delete(`/api/delete-skills?name=${name}`, {
-        headers: {
-          Authorization: `Bearer ${check_admin.token}`,
-        },
-      });
+      const res = await axios.delete(
+        `${import.meta.env.VITE_API_BASE_URL}/api/delete-skills?name=${name}`,
+        {
+          headers: {
+            Authorization: `Bearer ${check_admin.token}`,
+          },
+        }
+      );
       if (res.data.success) {
         toast.success(res.data.message, {
           position: "top-center",

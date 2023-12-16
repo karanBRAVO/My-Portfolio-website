@@ -21,11 +21,16 @@ const UpdateProject = () => {
       const arr = window.location.href.split("/");
       const id = arr[arr.length - 1];
       axios
-        .get(`/api/get-project-info/by-id/${id}`, {
-          headers: {
-            Authorization: `Bearer ${check_admin.token}`,
-          },
-        })
+        .get(
+          `${
+            import.meta.env.VITE_API_BASE_URL
+          }/api/get-project-info/by-id/${id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${check_admin.token}`,
+            },
+          }
+        )
         .then((response) => {
           if (response.data.success) {
             setProjectData(response.data.data);
@@ -57,7 +62,7 @@ const UpdateProject = () => {
       const id = arr[arr.length - 1];
 
       const res = await axios.put(
-        `/api/update-project-info/${id}`,
+        `${import.meta.env.VITE_API_BASE_URL}/api/update-project-info/${id}`,
         projectData,
         { headers: { Authorization: `Bearer ${check_admin.token}` } }
       );

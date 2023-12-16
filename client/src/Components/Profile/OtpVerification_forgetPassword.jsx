@@ -25,7 +25,12 @@ const OtpVerification_forgetPassword = ({ email }) => {
 
     if (otp.length > 0) {
       axios
-        .post("/api/profile/forget-password/verify-otp", { otp })
+        .post(
+          `${
+            import.meta.env.VITE_API_BASE_URL
+          }/api/profile/forget-password/verify-otp`,
+          { otp }
+        )
         .then((res) => {
           if (!res.data.success) {
             setErrorInfo(res.data.message);
@@ -89,9 +94,14 @@ const OtpVerification_forgetPassword = ({ email }) => {
 
   const handleResentOtp = () => {
     axios
-      .post("/api/profile/forget-password/send-otp", {
-        email,
-      })
+      .post(
+        `${
+          import.meta.env.VITE_API_BASE_URL
+        }/api/profile/forget-password/send-otp`,
+        {
+          email,
+        }
+      )
       .then((response) => {
         if (response.data.success) {
           toast.success(response.data.message, {

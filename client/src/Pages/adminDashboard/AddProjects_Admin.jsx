@@ -36,11 +36,15 @@ const AddProjects_Admin = () => {
       setLoading(true);
 
       try {
-        const response = await axios.post("/api/add-project-info", formData, {
-          headers: {
-            Authorization: `Bearer ${check_admin.token}`,
-          },
-        });
+        const response = await axios.post(
+          `${import.meta.env.VITE_API_BASE_URL}/api/add-project-info`,
+          formData,
+          {
+            headers: {
+              Authorization: `Bearer ${check_admin.token}`,
+            },
+          }
+        );
         if (response.data.success) {
           toast.success(response.data.message, {
             position: "bottom-left",

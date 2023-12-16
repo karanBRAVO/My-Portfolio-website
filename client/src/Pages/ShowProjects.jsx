@@ -21,7 +21,7 @@ const ShowProjects = () => {
           .split("=")[1]
           .toLowerCase();
         const res = await axios.get(
-          `/api/get-project-info/by-keywords?keyword=${keyword}`
+          `${import.meta.env.VITE_API_BASE_URL}/api/get-project-info/by-keywords?keyword=${keyword}`
         );
         if (res.data.success) {
           setData(res.data.data);

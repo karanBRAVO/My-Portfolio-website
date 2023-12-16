@@ -40,7 +40,10 @@ const Login = () => {
       setErrorStatus("* Fields cannot be empty");
     } else {
       axios
-        .post("/api/auth/log-in-user", inputValues)
+        .post(
+          `${import.meta.env.VITE_API_BASE_URL}/api/auth/log-in-user`,
+          inputValues
+        )
         .then((res) => {
           if (!res.data.success) {
             setErrorStatus(res.data.message);
@@ -58,7 +61,7 @@ const Login = () => {
           } else {
             // making profile request
             axios
-              .get("/api/profile/get-user")
+              .get(`${import.meta.env.VITE_API_BASE_URL}/api/profile/get-user`)
               .then((res) => {
                 if (res.data.success) {
                   // setting global state for user
@@ -116,9 +119,14 @@ const Login = () => {
 
     if (inputValues.email) {
       axios
-        .post("/api/profile/forget-password/send-otp", {
-          email: inputValues.email,
-        })
+        .post(
+          `${
+            import.meta.env.VITE_API_BASE_URL
+          }/api/profile/forget-password/send-otp`,
+          {
+            email: inputValues.email,
+          }
+        )
         .then((response) => {
           if (response.data.success) {
             toast.success(response.data.message, {

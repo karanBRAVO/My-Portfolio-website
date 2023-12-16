@@ -20,7 +20,7 @@ const ShowProjects_Admin = () => {
   useEffect(() => {
     setLoading(true);
     axios
-      .get("/api/get-project-info", {
+      .get(`${import.meta.env.VITE_API_BASE_URL}/api/get-project-info`, {
         headers: {
           Authorization: `Bearer ${check_admin.token}`,
         },
@@ -42,7 +42,9 @@ const ShowProjects_Admin = () => {
 
       try {
         const response = await axios.get(
-          `/api/get-project-info/by-search?searchInput=${searchData}`,
+          `${
+            import.meta.env.VITE_API_BASE_URL
+          }/api/get-project-info/by-search?searchInput=${searchData}`,
           {
             headers: {
               Authorization: `Bearer ${check_admin.token}`,

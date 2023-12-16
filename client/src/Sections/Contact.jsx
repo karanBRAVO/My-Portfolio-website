@@ -42,7 +42,7 @@ const Contact = () => {
       if (senderData.email == loginState.email) {
         try {
           const res = await axios.post(
-            "/api/user/send-message/to-me",
+            `${import.meta.env.VITE_API_BASE_URL}/api/user/send-message/to-me`,
             senderData
           );
 

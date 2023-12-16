@@ -35,12 +35,16 @@ const Add_Skill = () => {
     setLoading(true);
 
     try {
-      const res = await axios.post(`/api/add-skills`, formData, {
-        headers: {
-          Authorization: `Bearer ${check_admin.token}`,
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      const res = await axios.post(
+        `${import.meta.env.VITE_API_BASE_URL}/api/add-skills`,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${check_admin.token}`,
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
       if (res.data.success) {
         toast.success(res.data.message, {
           position: "top-center",

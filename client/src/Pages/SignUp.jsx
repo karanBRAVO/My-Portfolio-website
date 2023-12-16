@@ -36,7 +36,10 @@ const SignUp = () => {
       setErrorStatus("* Fields cannot be empty");
     } else {
       axios
-        .post("/api/auth/sign-up-user", inputValues)
+        .post(
+          `${import.meta.env.VITE_API_BASE_URL}/api/auth/sign-up-user`,
+          inputValues
+        )
         .then((res) => {
           if (!res.data.success) {
             setErrorStatus(res.data.message);

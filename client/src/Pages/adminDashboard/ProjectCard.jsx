@@ -18,11 +18,14 @@ const ProjectCard = ({ id, createdAt, updatedAt, name }) => {
       setLoading(true);
 
       try {
-        const response = await axios.delete(`/api/delete-project-info/${id}`, {
-          headers: {
-            Authorization: `Bearer ${check_admin.token}`,
-          },
-        });
+        const response = await axios.delete(
+          `${import.meta.env.VITE_API_BASE_URL}/api/delete-project-info/${id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${check_admin.token}`,
+            },
+          }
+        );
         if (response.data.success) {
           toast.success(response.data.message, {
             position: "bottom-left",
