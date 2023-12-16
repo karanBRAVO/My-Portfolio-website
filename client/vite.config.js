@@ -1,16 +1,17 @@
-import { defineConfig } from "vite";
+import { defineConfig, loadEnv } from "vite";
 import react from "@vitejs/plugin-react";
 
-export default () => {
+export default ({ mode }) => {
+  process.env = { ...process.env, ...loadEnv(mode, process.cwd()) };
   return defineConfig({
     server: {
       proxy: {
         "/api": {
-          target: "https://my-portfolio-my-blog.onrender.com",
+          target: process.env.VITE_API_BASE_URL,
           changeOrigin: true,
           secure: false,
           rewrite: (path) =>
-            path.replace(/^\/api/, "https://my-portfolio-my-blog.onrender.com" + "/api"),
+            path.replace(/^\/api/, process.env.VITE_API_BASE_URL + "/api"),
         },
       },
     },
