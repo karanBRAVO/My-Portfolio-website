@@ -2,6 +2,7 @@ import express from "express";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import dotEnv from "dotenv";
+import cors from "cors";
 import dbConnect from "./connection/dbConn.js";
 import { v2 as cloudinary } from "cloudinary";
 import projectRouter from "./routes/project.route.js";
@@ -14,6 +15,14 @@ import adminRouter from "./routes/admin.route.js";
 
 const APP = express();
 dotEnv.config();
+APP.use(
+  cors({
+    origin: "https://my-portfolio-my-blog.vercel.app/",
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    credentials: true,
+    optionsSuccessStatus: 204,
+  })
+);
 dbConnect();
 cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,
